@@ -1,0 +1,13 @@
+loslegen:
+
+
+model		
+	gameCell
+		cellType (land, water, town)
+	unit	
+		unittype: ship, person
+		
+view	
+	x*x matrix			
+	
+	
