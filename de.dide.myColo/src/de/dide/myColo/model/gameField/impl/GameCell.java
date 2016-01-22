@@ -1,4 +1,4 @@
-package de.dide.myColo.model.gameField;
+package de.dide.myColo.model.gameField.impl;
 
 import de.dide.myColo.model.terrain.AbstractTerrain;
 
