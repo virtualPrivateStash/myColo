@@ -5,9 +5,34 @@ model
 	gameCell
 		cellType (land, water, town)
 	unit	
-		unittype: ship, person
+		unitType: ship, person
+		
+		
 		
 view	
 	x*x matrix			
 	
+	
+	
+	
+	
+cellTypes:
+
+
+land 			(standard-wert mit allen default werten)
+rock
+desert
+tropical
+ice
+
+
+
+
+
+
+coast
+water
+	
+	
+
 	

@@ -1,7 +1,12 @@
 package de.dide.myColo.model.gameField;
 
+import de.dide.myColo.model.terrain.AbstractTerrain;
+
 public class GameCell {
 
-	ICellType cellType;
+	AbstractTerrain cellType;
 	//List(IUnit) unitOnCell;
+	
+	
+	
 }
