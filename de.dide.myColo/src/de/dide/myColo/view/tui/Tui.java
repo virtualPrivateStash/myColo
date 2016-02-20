@@ -1,14 +1,23 @@
 package de.dide.myColo.view.tui;
 
+import de.dide.myColo.controller.Controller;
+import de.dide.myColo.controller.impl.MainController;
+
 public class Tui {
 	
-	private final int CELLSIZE = 5;
-	private final int GAMEFIELDSIZE= 5;
+	private static final int CELLSIZE = 5;
+	private static final int GAMEFIELDSIZE= 5;
+	private GameString gameString; 
 
 	
 	private static Tui instance;
+	private Controller controller;
 	
-	private Tui() {}
+	private Tui() {
+		controller = new MainController();
+		gameString = GameString.getInstance();
+		printTuiToConsole();
+	}
 	
 	public static Tui getInstance () {
 	  if (instance == null) {
@@ -18,12 +27,25 @@ public class Tui {
 	}
 	
 	public void printTuiToConsole() {
-		
-		
-		
+		gameString.paint();
 	}
+
 	
-	
+	/**
+	 * returns the size of a single cell 
+	 * which means the size measured in characters
+	 * 
+	 * @return CELLSIZE
+	 */
+	public static int getCellSize() {
+		return CELLSIZE;
+	}
+
+	/**
+	 * @return the gAMEFIELDSIZE
+	 */
+	public static int getGAMEFIELDSIZE() {
+		return GAMEFIELDSIZE;
+	}
+
 }
-
-
