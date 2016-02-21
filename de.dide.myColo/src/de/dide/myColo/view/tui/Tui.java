@@ -5,8 +5,8 @@ import de.dide.myColo.controller.impl.MainController;
 
 public class Tui {
 	
-	private static final int CELLSIZE = 5;
-	private static final int GAMEFIELDSIZE= 5;
+	private static final int CELLSIZE = 9;
+	private static final int GAMEFIELDSIZE = 2;
 	private GameString gameString; 
 
 	
@@ -16,7 +16,6 @@ public class Tui {
 	private Tui() {
 		controller = new MainController();
 		gameString = GameString.getInstance();
-		printTuiToConsole();
 	}
 	
 	public static Tui getInstance () {
@@ -44,7 +43,7 @@ public class Tui {
 	/**
 	 * @return the gAMEFIELDSIZE
 	 */
-	public static int getGAMEFIELDSIZE() {
+	public static int getGameFieldSize() {
 		return GAMEFIELDSIZE;
 	}
 

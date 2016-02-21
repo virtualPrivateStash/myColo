@@ -5,69 +5,101 @@ import de.dide.myColo.view.tui.Tui;
 public class GameString {
 
 	private static GameString instance;
-	private GameCell[][] cellArray; 
-	char[][] gameStringInChars;
+	private GameCell[][] gameCellMatrix; 
+	char[][] gameFieldAsCharMatrix;
+	private int length_row;
+	private int length_col;
 		
 	private GameString() {
 		buildGameString();
-		paint();
 	}
 	
-	private void buildGameString() {
-		cellArray = new GameCell[Tui.getGAMEFIELDSIZE()][Tui.getGAMEFIELDSIZE()];
-		for (int y = 0; y < Tui.getGAMEFIELDSIZE(); y++) {
-			for (int x = 0; x < Tui.getGAMEFIELDSIZE(); x++) {
-				cellArray[x][y] = new GameCell();
-			}
-		}
-	}
-
 	public static GameString getInstance() {
-		if (instance == null) {
+		if (instance == null) {	
 			instance = new GameString();
 		}
 		return instance;
 	}
 
-	public void paint() {
-		int gameFieldLen_X = Tui.getGAMEFIELDSIZE() * Tui.getCellSize();
-		int gameFieldLen_Y = Tui.getGAMEFIELDSIZE() *  Tui.getCellSize();
-		gameStringInChars = new char[gameFieldLen_X][gameFieldLen_Y];
-
-		//copy all chars from each single gameCell into gameStringInChars 
-		for (int x = 0; x < Tui.getGAMEFIELDSIZE(); x++) {
-			for (int y = 0; y < Tui.getGAMEFIELDSIZE(); y++) {
-				oneCellToCharArray(x,y); 
+	/**
+	 * fills cellArray with n*n new cells
+	 */
+	private void buildGameString() {
+		createAndFillGameCellMatrix();
+	}
+	
+	
+	private void createAndFillGameCellMatrix() {
+		gameCellMatrix = new GameCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
+		for (int y = 0; y < Tui.getGameFieldSize(); y++) {
+			for (int x = 0; x < Tui.getGameFieldSize(); x++) {
+				gameCellMatrix[x][y] = new GameCell();
 			}
 		}
-		
+	}
+
+	public void paint() {
+		checkDimensionParams();
+		copyAllGameCellsToCharMatrix();
+		String s = buildFinalGameString();
+		System.out.println(s);
+		return;
+	}
+
+	private void copyAllGameCellsToCharMatrix() {
+		gameFieldAsCharMatrix = new char[length_row][length_col];
+		for (int x = 0; x < Tui.getGameFieldSize(); x++) {
+			for (int y = 0; y < Tui.getGameFieldSize(); y++) {
+				copyOneCellToGameCharMatrix(x,y); 
+			}
+		}		
+	}
+
+	private void checkDimensionParams() {
+		length_row = Tui.getGameFieldSize() * Tui.getCellSize();
+		length_col = Tui.getGameFieldSize() *  Tui.getCellSize();
+	}
+
+	/**
+	 * builds the final string that the console prints as visualization of the gameField 
+	 * @return gameField as String
+	 */
+	private String buildFinalGameString() {
 		StringBuilder gameSB = new StringBuilder();
-	
-		for (int x = 0; x < gameFieldLen_X; x++) {
-			for (int y = 0; y < gameFieldLen_Y; y++) {
-				gameSB.append(gameStringInChars[x][y]);
-				if (y == (gameFieldLen_Y - 1) ) {
+
+		for (int x = 0; x < length_row; x++) {
+			for (int y = 0; y < length_col; y++) {
+				char fillChar = gameFieldAsCharMatrix[x][y];
+					//wenn char ='\0' wird leider nichts appended bzw. println gibt nichts mehr aus ( entspricht \0 dem newline-zeichen??).
+					//daher muss fillChar mit Leerzeichen gefüllt werden.
+					//sonst wird die Zeile nur bis zum ersten char mit '\0' ausgegeben.
+				if (fillChar == '\0') {
+					fillChar = ' ';
+				}
+		
+				gameSB.append(fillChar);
+
+				//bei Erreichen des Zeilenendes "\n" anhängen für Zeilenumbruch des Ausgabestrings
+				if (y == (length_col - 1) ) {
 					gameSB.append("\n");
 				} 
 			}
-		}
-		
-			
-		System.out.println(gameSB.toString());
-	
-		
+		}		
+		return gameSB.toString();
 	}
 
-	private void oneCellToCharArray(int cellIdx_x, int cellIdx_y) {
-		
-		char[][] tmpArray = cellArray[cellIdx_x][cellIdx_y].getCell();
-		
+	/**
+	 * copy chars of one gameCell at correct position in the gameCharMatrix
+	 * @param cellIdx_x
+	 * @param cellIdx_y
+	 */
+	private void copyOneCellToGameCharMatrix(int cellIdx_x, int cellIdx_y) {
+		char[][] tmpArray = gameCellMatrix[cellIdx_x][cellIdx_y].getCell();
 		for (int x = 0; x < Tui.getCellSize(); x++) {
 			for (int y = 0; y < Tui.getCellSize(); y++) {
-				gameStringInChars[(cellIdx_x * Tui.getCellSize() ) + x ][(cellIdx_y * Tui.getCellSize() ) + y] = tmpArray[x][y];   
+				gameFieldAsCharMatrix[(cellIdx_x * Tui.getCellSize() ) + x ][(cellIdx_y * Tui.getCellSize() ) + y] = tmpArray[x][y];   
 			}
 		}
 	}	
-	
 	
 }
