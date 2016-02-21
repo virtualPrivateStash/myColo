@@ -7,6 +7,7 @@ public class Tui {
 	
 	private static final int CELLSIZE = 9;
 	private static final int GAMEFIELDSIZE = 2;
+
 	private GameString gameString; 
 
 	
@@ -20,7 +21,7 @@ public class Tui {
 	
 	public static Tui getInstance () {
 	  if (instance == null) {
-		  instance = new Tui ();
+		  instance = new Tui();
 	  }
 	  return instance;
 	}

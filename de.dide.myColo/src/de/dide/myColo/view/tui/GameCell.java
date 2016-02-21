@@ -72,6 +72,7 @@ public class GameCell {
 	 */
 	public static char getBorderChar() {
 		return BORDERCHAR;
+
 	}
 	
 }
