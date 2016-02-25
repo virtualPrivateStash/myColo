@@ -1,4 +1,6 @@
-package de.dide.myColo.view.tui;
+package de.dide.myColo.view.tui2;
+
+import javax.swing.border.Border;
 
 import de.dide.myColo.controller.Controller;
 import de.dide.myColo.controller.impl.MainController;
@@ -11,7 +13,9 @@ public class GameCell {
 	private char[][] cellCharMatrix;
 	public static final char BORDERCHAR = '+';
 	public static final int BORDERSIZE = 1;
-	public static final int INFOAREASIZE = Tui.getCellSize() - 2 * BORDERSIZE	;
+	public static final char FILLINCHAR = '-';
+	public static final int FILLINLINES = 1;
+	public static final int INFOAREASIZE = Tui.getCellSize() - 2 * (BORDERSIZE+FILLINLINES);
 	private  AbstractTerrain cellType;
 	private  StringBuilder[] infoSBArray;
 	private  StringBuilder[] cellSBArray;
@@ -110,23 +114,57 @@ public class GameCell {
 		
 		////lines with space covered by infoArray		
 		int coveredLines = infoSBArray.length;
-		StringBuilder preAndPost = new StringBuilder();
+		
+		int charsToFill = Tui.getCellSize() - (2 * BORDERSIZE) - INFOAREASIZE;
+	
+		StringBuilder pre = new StringBuilder();
+		StringBuilder post = new StringBuilder();
+
+		for (int i = 0; i < (charsToFill / 2); i++) {
+			pre.append(FILLINCHAR);
+			post.append(FILLINCHAR);
+		}		
+		
 		for (int i = 0; i < BORDERSIZE; i++) {
-			preAndPost.append(BORDERCHAR);
+			post.append(BORDERCHAR);
+			pre.insert(0, BORDERCHAR);
 		}
+		
+		
 		for (int i=0; i<coveredLines; i++) {
-			//System.out.println(infoSBArray[0].toString());
-			//cellSBArray[BORDERSIZE + i].append(preAndPost.toString() + infoSBArray[i].toString() + preAndPost.toString());
 			cellSBArray[BORDERSIZE + i] = new StringBuilder(Tui.getCellSize());
-			cellSBArray[BORDERSIZE + i].append("asdfsd");
+			cellSBArray[BORDERSIZE + i].append(pre.toString() + infoSBArray[i].toString() + post.toString());
+		}
+		
+		//fill empty rows after...
+		int rowsWithNull = Tui.getCellSize() - 2*BORDERSIZE - infoSBArray.length;
+		
+		if (rowsWithNull > 0) {
+			for (int i=0; i < rowsWithNull; i++) {
+				StringBuilder fillLine = new StringBuilder();
+				
+				int fillWithFillChar = Tui.getCellSize() - 2 * BORDERSIZE;
+				for (int j=0; j< (fillWithFillChar); j++) {
+					fillLine.append(FILLINCHAR);
+				}
+				for (int k=0; k< (BORDERSIZE); k++) {
+					fillLine.insert(k, BORDERCHAR);
+					fillLine.append(BORDERCHAR);
+				}
+				//rowsWithNull einfügen in cellSBArray
+				int tmpIndex = BORDERSIZE + infoSBArray.length + i;
+
+				cellSBArray[tmpIndex] = fillLine; 
+				
+			}
 		}
 		
 		////add non-covered lines (borderCharLines)
 		for (int i = 0; i < BORDERSIZE; i++) {
 			cellSBArray[i] = new StringBuilder(Tui.getCellSize());
-			cellSBArray[i].append(borderLine.toString());
+			cellSBArray[i].append(borderLine);
 			
-			cellSBArray[Tui.getCellSize() -i-1] = new StringBuilder("asdfsd");
+			cellSBArray[Tui.getCellSize() -i-1] = new StringBuilder(borderLine);
 		}
 		return cellSBArray;
 	}
@@ -136,12 +174,33 @@ public class GameCell {
 		String type = controller.getNameOfTerrainType(cellType);
 
 		StringBuilder row1 = new StringBuilder();
-		row1.append("Terrain: " +type);
+		row1.append("Terrain: " + type); 
+
+//		System.out.println("Tui.getCellSize()"+ Tui.getCellSize());
+//		System.out.println("INFOAREASIZE: " + INFOAREASIZE);
+//		System.out.println("FILLINLINES: " + FILLINLINES);
+//		System.out.println("BORDERSIZE: " + BORDERSIZE);
+
+		
+		//wenn noch chars frei dann mit FILLINCHAR auffüllen 
+		if (row1.length() < INFOAREASIZE) {
+			int diff = INFOAREASIZE - row1.length();
+			for (int i=0; i<diff; i++) {
+				row1.append(FILLINCHAR);
+			}	
+		//sonst String kürzen 
+		} else if ( row1.length() > INFOAREASIZE) {
+			String s = row1.substring(0,  INFOAREASIZE);
+			row1 = null;
+			row1 = new StringBuilder(s);			
+		}
+		
+
 		row1 = VisualConstants.getColoredString(VisualConstants.colorName.DEFAULT, row1);
 		for (int i = 0; i < infoSBArray.length; i++) {
 			infoSBArray[i] = row1;
 		}
-		
+
 		return infoSBArray;
 	}
 	

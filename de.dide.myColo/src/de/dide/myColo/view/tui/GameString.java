@@ -7,8 +7,9 @@ public class GameString {
 	private static GameString instance;
 	private GameCell[][] gameCellMatrix; 
 	char[][] gameFieldAsCharMatrix;
-	private int length_row;
-	private int length_col;
+	private StringBuilder[][] gameFieldSB; 
+	private static int length_row;
+	private static int length_col;
 		
 	private GameString() {
 		buildGameString();
@@ -38,24 +39,46 @@ public class GameString {
 		}
 	}
 
-	public void paint() {
+	public static void paint() {
 		checkDimensionParams();
-		copyAllGameCellsToCharMatrix();
-		String s = buildFinalGameString();
-		System.out.println(s);
-		return;
+		//copyAllGameCellsToCharMatrix();
+		//String s = buildFinalGameString();
+		
+		//hier noch string ausgeben aber irgendwie die zeilen geloescht ausversehen. eventuell ein paar zeilen dazuschreiben..
+	}
+
+	public void paint2() {
+		buildRowSBArrayFromGameCells();
+		
+	}
+	
+	/**
+	 * 
+	 */
+	private void buildRowSBArrayFromGameCells() {
+		int nrOfRows = Tui.getCellSize() * Tui.getGameFieldSize();
+		int nrOfCols = Tui.getGameFieldSize();
+		gameFieldSB = new StringBuilder[nrOfCols][Tui.getGameFieldSize()];
+		
+		//copy single Rows of each cells sbArray into gameFieldSB
+		for (int i=0; i < (nrOfRows); i++) {
+			for (int j=0; j < nrOfCols; j++) {
+				gameFieldSB[i][j] = gameCellMatrix[ (i % Tui.getGameFieldSize()) ][ j ].getCellSBArray()[ (i % Tui.getCellSize()) ];								
+			}
+		}
+		
 	}
 
 	private void copyAllGameCellsToCharMatrix() {
 		gameFieldAsCharMatrix = new char[length_row][length_col];
 		for (int x = 0; x < Tui.getGameFieldSize(); x++) {
 			for (int y = 0; y < Tui.getGameFieldSize(); y++) {
-				copyOneCellToGameCharMatrix(x,y); 
+				copyOneCellToGameCharMatrix(x,y);
 			}
 		}		
 	}
 
-	private void checkDimensionParams() {
+	private static void checkDimensionParams() {
 		length_row = Tui.getGameFieldSize() * Tui.getCellSize();
 		length_col = Tui.getGameFieldSize() *  Tui.getCellSize();
 	}
@@ -76,9 +99,8 @@ public class GameString {
 				if (fillChar == '\0') {
 					fillChar = ' ';
 				}
-		
+				//BUILD COLOR STRING				
 				gameSB.append(fillChar);
-
 				//bei Erreichen des Zeilenendes "\n" anhängen für Zeilenumbruch des Ausgabestrings
 				if (y == (length_col - 1) ) {
 					gameSB.append("\n");
@@ -101,5 +123,5 @@ public class GameString {
 			}
 		}
 	}	
-	
+
 }

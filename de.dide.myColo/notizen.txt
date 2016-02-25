@@ -1,4 +1,64 @@
-loslegen:
+nächste Schritte:
+
+- Consolenoutput farbig kriegen (wasser=blau,...)
+
+
+GameCell: künfigter Aufbau:
+
+	(?Randbereich(border)?, füllbereich(restliche freie Fläche in farben des CellTypes), infoArea fester Größe mit farblichen Hervorhebungen \
+																						 je nach Zelltyp und Belegung
+	
+	gameCell hat pro Zelle 																					 
+		-	String[] infoArea[infoAreaSize]
+		-   cellType
+		
+		- 	String[] wholeCell[cellSize]
+				baut eine String aus getColoredString(Füllzeichen) + infoArea[zeile] + getColoredString(füllzeichen)  
+		
+		liefert zurück:
+			String[] per getAsColoredStringArray.
+		
+	GameString baut daraus:
+		
+																							 
+	
+
+
+
+
+
+- wenn der output-String gebildet wird, muss pro kopierter Zelle ein farb-string der max-länge cellSize gebildet werden
+
+	GameCell: neue paint-implementierung
+	gameCell hat noch ein enum[][] für den typ pro zeichen
+	
+	
+		festlegung: eine gameCell ist eine border, die eine cellInfoArea umschliesst:
+		
+		String[][] cellInfoArea = new String[infoAreaSize_X], infoAreaSize_Y
+	
+		enum charType = 
+		
+		colorFor
+		cellType 	(default, water, rock, colony, ...)
+		
+		
+		verschiedene Bereiche: Flächen in einer Zelle:
+		infoArea (isEmpty, cellType, unitsOnField, coordinates(xy)) 
+		Border
+		filling (blau für water, ...)		
+
+	GameString.copyOneColoredCellToGameCharMatrix
+
+
+
+
+
+
+- printCellInfoField() in GameCell bauen
+- gameFieldCharMatrix ohne doppelte Grenzen bauen
+
+
 
 
 model		
