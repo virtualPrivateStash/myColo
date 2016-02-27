@@ -52,7 +52,7 @@ public class GameString {
 		
 		//loop over a row of cells (if 3*3, then 3 repetitions)
 		for (int rowIngameCellMatrix=0; rowIngameCellMatrix < Tui.getGameFieldSize(); rowIngameCellMatrix++) {
-			for (int rowOfSingleCell=0; rowOfSingleCell < Tui.getCellSize() ; rowOfSingleCell++) {
+			for (int rowOfSingleCell=0; rowOfSingleCell < Tui.getCellSize(); rowOfSingleCell++) {
 				for (int col=0; col < Tui.getGameFieldSize(); col++) {
 					gameFieldSB [ rowIngameCellMatrix * Tui.getCellSize() + rowOfSingleCell] [col]  
 						= gameCellMatrix[rowIngameCellMatrix][col].getCellSBArray()[rowOfSingleCell];
@@ -66,7 +66,7 @@ public class GameString {
 	 */
 	private void printGameFieldSB() {
 		StringBuilder tmpLine = new StringBuilder();
-		int nrOfRows = Tui.getCellSize() * Tui.getGameFieldSize();
+		int nrOfRows = GameCell.getCellSize() * Tui.getGameFieldSize();
 		int nrOfCols = Tui.getGameFieldSize();
 		
 		for (int row=0; row < nrOfRows; row++) {

@@ -1,6 +1,8 @@
 package de.dide.myColo.view.tui;
 
 import de.dide.myColo.view.tui.Tui;
+import de.dide.myColo.view.tui2.GameCell;
+
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -10,7 +12,7 @@ import org.junit.Test;
 public class GameCellTest {
 
 	private GameCell sut;
-	final static int CELLSIZE = Tui.getCellSize();
+	final static int CELLSIZE = GameCell.getCellSize();
 	char[] constructedArray;
 	char BORDERCHAR = GameCell.getBorderChar(); 
 	
@@ -26,7 +28,6 @@ public class GameCellTest {
 		constructedArray = null;
 	}
 
-
 	@Test
 	/**
 	 * tests for: 
@@ -37,33 +38,18 @@ public class GameCellTest {
 		for (int i = 0; i < CELLSIZE; i++) {
 			constructedArray[i] = BORDERCHAR;
 		}
-		
-		testOneRow(1);
+		//testOneRow(1);
 		testOneColumn(1);
 	}
 
 	@Test
 	private void testOneColumn(int col) {
 		
-		
-		
 		//assertArrayEquals(constructedArray, sut);
 		
 		for (int i=0; i < CELLSIZE; i++) {
 			//sut[i][col] != BORDERCHAR
-			
-				
 		}
-
 	}
-
-	@Test
-	private void testOneRow(int i) {
-		
-	}
-
-	
-	
-	
 	
 }

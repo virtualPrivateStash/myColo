@@ -6,7 +6,7 @@ import de.dide.myColo.controller.impl.MainController;
 public class Tui {
 	
 	private static final int CELLSIZE = 10;
-	private static final int GAMEFIELDSIZE = 6;
+	private static final int GAMEFIELDSIZE = 3;
 
 	private GameString gameString; 
 
