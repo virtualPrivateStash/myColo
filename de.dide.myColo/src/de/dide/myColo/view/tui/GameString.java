@@ -35,7 +35,7 @@ public class GameString {
 		gameCellMatrix = new GameCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
 		for (int y = 0; y < Tui.getGameFieldSize(); y++) {
 			for (int x = 0; x < Tui.getGameFieldSize(); x++) {
-				gameCellMatrix[x][y] = new GameCell();
+				gameCellMatrix[x][y] = new GameCell(x,y);
 			}
 		}
 	}

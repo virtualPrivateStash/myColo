@@ -8,6 +8,10 @@ public abstract class AbstractTerrain {
 	private boolean isFree = true;
 	private boolean isLand = true;
 	
+	public AbstractTerrain() {
+				
+	}
+	
 	public int getMoveCost() {
 		return getMovecost();
 	}
@@ -37,6 +41,6 @@ public abstract class AbstractTerrain {
 	}
 
 	public void setNameOfTerrainType(String name) {
-    	this.nameOfTerrainType = "name";
+    	this.nameOfTerrainType = name;
 	}
 }

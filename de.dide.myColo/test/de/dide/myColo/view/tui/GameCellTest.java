@@ -18,7 +18,7 @@ public class GameCellTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		sut = new GameCell();
+		sut = new GameCell(0,0);
 		constructedArray = new char[CELLSIZE];
 		GameCell.getBorderChar();
 	}
