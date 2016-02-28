@@ -6,7 +6,8 @@ public class Water extends AbstractTerrain {
 
 	public Water() {
 		this.setNameOfTerrainType("water");
-		isLand(false);
+		setMovecost(1);
+		setIsLand(false);
 	}
 
 }

@@ -1,5 +1,4 @@
-package de.dide.myColo.model.gameField;
-
+package testingForLearning;
 public class TestClass1 {
 
 	private enum testEnum { ONE, TWO, THREE };

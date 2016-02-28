@@ -6,7 +6,7 @@ public class Land extends AbstractTerrain{
 
 	public Land() {
 		this.setNameOfTerrainType("land");
-		isLand(true);
+		setIsLand(true);
 		
 	}
 }
