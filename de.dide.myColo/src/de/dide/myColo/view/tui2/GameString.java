@@ -7,8 +7,6 @@ public class GameString {
 	private static GameString instance;
 	private GameCell[][] gameCellMatrix; 
 	private StringBuilder[][] gameFieldSB; 
-	private static int length_row;
-	private static int length_col;
 		
 	private GameString() {
 		buildGameString();
@@ -47,14 +45,14 @@ public class GameString {
 	 * copy single Rows of each cells sbArray to the correct position of gameFieldSB
 	 */
 	private void buildRowSBArrayFromGameCells() {
-		int nrOfRows = Tui.getCellSize() * Tui.getGameFieldSize();
+		int nrOfRows = GameCell.getCellSize() * Tui.getGameFieldSize();
 		gameFieldSB = new StringBuilder[nrOfRows][Tui.getGameFieldSize()];
 		
 		//loop over a row of cells (if 3*3, then 3 repetitions)
 		for (int rowIngameCellMatrix=0; rowIngameCellMatrix < Tui.getGameFieldSize(); rowIngameCellMatrix++) {
-			for (int rowOfSingleCell=0; rowOfSingleCell < Tui.getCellSize(); rowOfSingleCell++) {
+			for (int rowOfSingleCell = 0; rowOfSingleCell < GameCell.getCellSize(); rowOfSingleCell++) {
 				for (int col=0; col < Tui.getGameFieldSize(); col++) {
-					gameFieldSB [ rowIngameCellMatrix * Tui.getCellSize() + rowOfSingleCell] [col]  
+					gameFieldSB [ rowIngameCellMatrix * GameCell.getCellSize() + rowOfSingleCell] [col]  
 						= gameCellMatrix[rowIngameCellMatrix][col].getCellSBArray()[rowOfSingleCell];
 				}
 			}		
@@ -75,6 +73,6 @@ public class GameString {
 			}
 			tmpLine.append("\n");
 		}
-		System.out.println(tmpLine);	
+		System.out.println(tmpLine);
 	}
 }

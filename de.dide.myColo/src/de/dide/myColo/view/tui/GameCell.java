@@ -53,93 +53,13 @@ public class GameCell {
 		}
 	}
 
-	private void fillCellWithSymbolChars() {
-		writeBorderChars();
-	}
-
-	private void writeBorderChars() {
-
-		for (int i = 0; i < BORDERSIZE ; i++) {
-			//copying border with i distance top and bottom
-			fillWholeLine(i, true);
-			fillWholeLine( cellSize -1 -i , true);
-			//copying border with i distance from left and right
-			fillWholeLine(i, false);
-			fillWholeLine( cellSize - i -1 , false);
-		}
-	}
-		
-
-	 /**
-	  * fills one whole row or column of the char[][]; 
-	  * 
-	  * @param idxOfLine - contains the index of the row or column that is to be printed. 
-	  * @param row - boolean with true= line is a row, false= line is a column.
-	  */
-	private void fillWholeLine(int idxOfLine, boolean row) {
-		if (row) {
-			for (int i = 0; i < cellSize; i++) {
-				cellCharMatrix[idxOfLine][i] = BORDERCHAR;
-			}
-		} 
-		else {
-			for (int i = 0; i < cellSize; i++) {
-				cellCharMatrix[i][idxOfLine] = BORDERCHAR;
-			}
-		}
-	}
-	
-	/**
-	 * fills whole cell with the same char 
-	 */
-	private void fillCell() {
-		for (int y = 0; y < getCell().length; y++) {
-			for (int x = 0; x < getCell().length; x++) {
-				getCell()[x][y] = getBorderChar();
-			}
-		}
-	}
-	
-	/**
-	 * @return the bORDERCHAR
-	 */
-	public static char getBorderChar() {
-		return BORDERCHAR;
-	}
-	
-	
-	/**
-	 * @return the cell
-	 */
-	public char[][] getCell() {
-		return cellCharMatrix;
-	}
-
-	public StringBuilder[] getCellSBArray() {
-		return cellSBArray;
-	}
-	
-	public static Integer getCellSize() {
-		if (cellSize == null) {
-			initializeSizeVariables();
-		}
-		return cellSize;
-	}
-
-
-
-	public static Integer getInfoAreaSize() {
-		return infoAreaSize;
-	}
-
-
 	private void paintCellViaColoredStringArray() {
 		buildInfoArea();
 		integrateInfoAreaAndBorderChars();
 	}	
 	
 	/**
-	 * takes infoArea[] and fills the remaining chars before and after with Borderchar in cellType-Color
+	 * takes infoArea[] and fills the remaining chars before and after with Borderchar in cellType-Color 
 	 */
 	private StringBuilder[] integrateInfoAreaAndBorderChars() {
 		cellSBArray = new StringBuilder[cellSize];
@@ -186,5 +106,99 @@ public class GameCell {
 		
 		return infoSBArray;
 	}
+
+//******************************************************
+//******************************************************
+//		GETTERS AND SETTERS
+//******************************************************
+//******************************************************	
+	
+	/**
+	 * @return the bORDERCHAR
+	 */
+	public static char getBorderChar() {
+		return BORDERCHAR;
+	}
+	
+	/**
+	 * @return the cell
+	 */
+	public char[][] getCell() {
+		return cellCharMatrix;
+	}
+
+	public StringBuilder[] getCellSBArray() {
+		return cellSBArray;
+	}
+	
+	public static Integer getCellSize() {
+		if (cellSize == null) {
+			initializeSizeVariables();
+		}
+		return cellSize;
+	}
+
+	public static Integer getInfoAreaSize() {
+		if (infoAreaSize == null) {
+			initializeSizeVariables();
+		}
+		return infoAreaSize;
+	}
+
+
+
+//******************************************************
+//******************************************************
+//		OLD CODE
+//******************************************************
+//******************************************************		
+	
+private void fillCellWithSymbolChars() {
+		writeBorderChars();
+	}
+
+	private void writeBorderChars() {
+
+		for (int i = 0; i < BORDERSIZE ; i++) {
+			//copying border with i distance top and bottom
+			fillWholeLine(i, true);
+			fillWholeLine( cellSize -1 -i , true);
+			//copying border with i distance from left and right
+			fillWholeLine(i, false);
+			fillWholeLine( cellSize - i -1 , false);
+		}
+	}
+		
+
+	 /**
+	  * fills one whole row or column of the char[][]; 
+	  * 
+	  * @param idxOfLine - contains the index of the row or column that is to be printed. 
+	  * @param row - boolean with true= line is a row, false= line is a column.
+	  */
+	private void fillWholeLine(int idxOfLine, boolean row) {
+		if (row) {
+			for (int i = 0; i < cellSize; i++) {
+				cellCharMatrix[idxOfLine][i] = BORDERCHAR;
+			}
+		} 
+		else {
+			for (int i = 0; i < cellSize; i++) {
+				cellCharMatrix[i][idxOfLine] = BORDERCHAR;
+			}
+		}
+	}
+	
+	/**
+	 * fills whole cell with the same char 
+	 */
+	private void fillCell() {
+		for (int y = 0; y < getCell().length; y++) {
+			for (int x = 0; x < getCell().length; x++) {
+				getCell()[x][y] = getBorderChar();
+			}
+		}
+	}	
+	
 	
 }
