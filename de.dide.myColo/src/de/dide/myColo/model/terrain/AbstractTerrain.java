@@ -12,6 +12,7 @@ public abstract class AbstractTerrain {
 				
 	}
 	
+	
 	public int getMoveCost() {
 		return getMovecost();
 	}
