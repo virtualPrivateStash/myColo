@@ -11,88 +11,59 @@ public class GameCell {
 
 	Controller controller = new MainController();
 	private char[][] cellCharMatrix;
-	public static final char BORDERCHAR = '+';
-	public static final int BORDERSIZE = 1;
-	public static final char FILLINCHAR = '-';
-	public static final int FILLINLINES = 1;
-	public static final int INFOAREASIZE = Tui.getCellSize() - 2 * (BORDERSIZE+FILLINLINES);
-	private  AbstractTerrain cellType;
-	private  StringBuilder[] infoSBArray;
-	private  StringBuilder[] cellSBArray;
+	private static Integer cellSize = null;
+	public static Integer infoAreaSize = null;
+	private static Integer charsStillEmpty = null; 
+	private  AbstractTerrain cellType = null;
+	private  StringBuilder[] infoSBArray = null;
+	private  StringBuilder[] cellSBArray = null;
+	private int coordX;
+	private int coordY;
 	
-	public GameCell() {
-		cellCharMatrix = new char[Tui.getCellSize()][Tui.getCellSize()];
+	public static final char BORDERCHAR = '+';
+	public static final char FILLINCHAR = '-';
+	public static final int BORDERSIZE = 1;
+	private static final int CELLSIZE_MIN = 8;
+	private static final int CELLSIZE_MAX = 40;
+	private static final int CELLSIZE_DEFAULT = 20;	
+	public static final int INFOAREASIZE_MIN = 6;
+	public static final int INFOAREASIZE_MAX = 25;
+	public static final double INFOAREASIZE_FAKTOR = 0.7;
+	
+	
+	public GameCell(int idx_row, int idx_col) {
+
+		initializeSizeVariables();
+		cellCharMatrix = new char[cellSize][cellSize];
 		cellType = new Water();
+		coordX = idx_row;
+		coordY = idx_col;
 //		fillCell();
 //		fillCellWithSymbolChars();
 		paintCellViaColoredStringArray();
+	}
+
+	private static void initializeSizeVariables() {
 		
-	}
+		if (cellSize == null || infoAreaSize == null || charsStillEmpty == null) {
+			
+			cellSize = CELLSIZE_DEFAULT;
 
-	private void fillCellWithSymbolChars() {
-		writeBorderChars();
-	}
-
-	private void writeBorderChars() {
-
-		for (int i = 0; i < BORDERSIZE ; i++) {
-			//copying border with i distance top and bottom
-			fillWholeLine(i, true);
-			fillWholeLine( Tui.getCellSize() -1 -i , true);
-			//copying border with i distance from left and right
-			fillWholeLine(i, false);
-			fillWholeLine( Tui.getCellSize() - i -1   , false);
-		}
-	}
-		
-
-	 /**
-	  * fills one whole row or column of the char[][]; 
-	  * 
-	  * @param idxOfLine - contains the index of the row or column that is to be printed. 
-	  * @param row - boolean with true= line is a row, false= line is a column.
-	  */
-	private void fillWholeLine(int idxOfLine, boolean row) {
-		if (row) {
-			for (int i = 0; i < Tui.getCellSize(); i++) {
-				cellCharMatrix[idxOfLine][i] = BORDERCHAR;
+			if (cellSize < CELLSIZE_MIN || cellSize > CELLSIZE_MAX || cellSize <= 0) {
+				cellSize = CELLSIZE_MIN;
 			}
-		} 
-		else {
-			for (int i = 0; i < Tui.getCellSize(); i++) {
-				cellCharMatrix[i][idxOfLine] = BORDERCHAR;
+			
+			infoAreaSize = (int) (cellSize * INFOAREASIZE_FAKTOR);
+							
+			if (infoAreaSize < INFOAREASIZE_MIN) {
+				infoAreaSize = INFOAREASIZE_MIN;
+			}
+			
+			charsStillEmpty = cellSize - 2 * BORDERSIZE - infoAreaSize;
+			if (charsStillEmpty <= 0) {
+				charsStillEmpty = 0;
 			}
 		}
-	}
-	
-	/**
-	 * fills whole cell with the same char 
-	 */
-	private void fillCell() {
-		for (int y = 0; y < getCell().length; y++) {
-			for (int x = 0; x < getCell().length; x++) {
-				getCell()[x][y] = getBorderChar();
-			}
-		}
-	}
-	
-	/**
-	 * @return the bORDERCHAR
-	 */
-	public static char getBorderChar() {
-		return BORDERCHAR;
-	}
-	
-	
-	/**
-	 * @return the cell
-	 */
-	public char[][] getCell() {
-		return cellCharMatrix;
-	}
-
-	public StringBuilder[] getCellSBArray() {
-		return cellSBArray;
 	}
 
 	private void paintCellViaColoredStringArray() {
@@ -104,18 +75,18 @@ public class GameCell {
 	 * takes infoArea[] and fills the remaining chars before and after with Borderchar in cellType-Color
 	 */
 	private StringBuilder[] integrateInfoAreaAndBorderChars() {
-		cellSBArray = new StringBuilder[Tui.getCellSize()];
+		cellSBArray = new StringBuilder[cellSize];
 		
 		//fill one line with borderChars as copy-paste material
-		StringBuilder borderLine= new StringBuilder(Tui.getCellSize());
-		for (int i=0; i< Tui.getCellSize(); i++) {
+		StringBuilder borderLine= new StringBuilder(cellSize);
+		for (int i=0; i< cellSize; i++) {
 			borderLine.append(BORDERCHAR);
 		}
 		
 		////lines with space covered by infoArray		
 		int coveredLines = infoSBArray.length;
 		
-		int charsToFill = Tui.getCellSize() - (2 * BORDERSIZE) - INFOAREASIZE;
+		int charsToFill = cellSize - (2 * BORDERSIZE) - infoAreaSize;
 	
 		StringBuilder pre = new StringBuilder();
 		StringBuilder post = new StringBuilder();
@@ -125,25 +96,28 @@ public class GameCell {
 			post.append(FILLINCHAR);
 		}		
 		
+		if ( (charsToFill % 2) == 1 ) {
+			post.append(FILLINCHAR);
+		}
+		
 		for (int i = 0; i < BORDERSIZE; i++) {
 			post.append(BORDERCHAR);
 			pre.insert(0, BORDERCHAR);
 		}
 		
-		
 		for (int i=0; i<coveredLines; i++) {
-			cellSBArray[BORDERSIZE + i] = new StringBuilder(Tui.getCellSize());
+			cellSBArray[BORDERSIZE + i] = new StringBuilder(cellSize);
 			cellSBArray[BORDERSIZE + i].append(pre.toString() + infoSBArray[i].toString() + post.toString());
 		}
 		
 		//fill empty rows after...
-		int rowsWithNull = Tui.getCellSize() - 2*BORDERSIZE - infoSBArray.length;
+		int rowsWithNull = cellSize - 2*BORDERSIZE - infoSBArray.length;
 		
 		if (rowsWithNull > 0) {
 			for (int i=0; i < rowsWithNull; i++) {
 				StringBuilder fillLine = new StringBuilder();
 				
-				int fillWithFillChar = Tui.getCellSize() - 2 * BORDERSIZE;
+				int fillWithFillChar = cellSize - 2 * BORDERSIZE;
 				for (int j=0; j< (fillWithFillChar); j++) {
 					fillLine.append(FILLINCHAR);
 				}
@@ -153,55 +127,104 @@ public class GameCell {
 				}
 				//rowsWithNull einfügen in cellSBArray
 				int tmpIndex = BORDERSIZE + infoSBArray.length + i;
-
 				cellSBArray[tmpIndex] = fillLine; 
-				
 			}
 		}
 		
 		////add non-covered lines (borderCharLines)
 		for (int i = 0; i < BORDERSIZE; i++) {
-			cellSBArray[i] = new StringBuilder(Tui.getCellSize());
+			cellSBArray[i] = new StringBuilder(cellSize);
 			cellSBArray[i].append(borderLine);
 			
-			cellSBArray[Tui.getCellSize() -i-1] = new StringBuilder(borderLine);
+			cellSBArray[cellSize -i-1] = new StringBuilder(borderLine);
 		}
 		return cellSBArray;
 	}
+	
 
 	private StringBuilder[] buildInfoArea() {
-		infoSBArray = new StringBuilder[INFOAREASIZE];
+		infoSBArray = new StringBuilder[3];
+//		infoSBArray = new StringBuilder[infoAreaSize];
 		String type = controller.getNameOfTerrainType(cellType);
-
 		StringBuilder row1 = new StringBuilder();
-		row1.append("Terrain: " + type); 
+		StringBuilder row2 = new StringBuilder();
+		StringBuilder row3 = new StringBuilder();
 
-//		System.out.println("Tui.getCellSize()"+ Tui.getCellSize());
-//		System.out.println("INFOAREASIZE: " + INFOAREASIZE);
-//		System.out.println("FILLINLINES: " + FILLINLINES);
-//		System.out.println("BORDERSIZE: " + BORDERSIZE);
-
-		
-		//wenn noch chars frei dann mit FILLINCHAR auffüllen 
-		if (row1.length() < INFOAREASIZE) {
-			int diff = INFOAREASIZE - row1.length();
-			for (int i=0; i<diff; i++) {
-				row1.append(FILLINCHAR);
-			}	
-		//sonst String kürzen 
-		} else if ( row1.length() > INFOAREASIZE) {
-			String s = row1.substring(0,  INFOAREASIZE);
-			row1 = null;
-			row1 = new StringBuilder(s);			
-		}
-		
-
-		row1 = VisualConstants.getColoredString(VisualConstants.colorName.DEFAULT, row1);
 		for (int i = 0; i < infoSBArray.length; i++) {
-			infoSBArray[i] = row1;
+			infoSBArray[i] = new StringBuilder();
 		}
+		
+		
+		row1.append("Coord: " + coordX + "," + coordY);
+//		row1.append("cellType" + type);
+ 		row2.append("moveCost: " + cellType.getMoveCost());
+ 		row3.append("cellType: " + cellType.getNameOfTerrainType());
 
+		infoSBArray[0] = row1;
+		infoSBArray[1] = row2;
+		infoSBArray[2] = row3;
+		
+		for (int i = 0; i < infoSBArray.length; i++) {
+//			System.out.println("infoSBArray[i].length: " + infoSBArray[i].length());
+//			System.out.println("infoSBArray[i]: " + infoSBArray[i]);
+			infoSBArray[i] = applyInfoAreaFormat(infoSBArray[i]);
+		}
 		return infoSBArray;
 	}
 	
+	private StringBuilder applyInfoAreaFormat(StringBuilder row) {
+
+		//wenn noch chars frei dann mit FILLINCHAR auffüllen 
+		if (row.length() < infoAreaSize) {
+			int diff = infoAreaSize - row.length();
+			for (int i=0; i<diff; i++) {
+				row.append(FILLINCHAR);
+			}	
+		//sonst String kürzen 
+		} else if ( row.length() > infoAreaSize) {
+			String s = row.substring(0,  infoAreaSize);
+			row = null;
+			row = new StringBuilder(s);			
+		}
+		
+		row = VisualConstants.getColoredString(VisualConstants.colorName.ALERT, row);
+		return row;
+	}
+	
+	
+	
+	//******************************************************	
+	//******************************************************
+	//******************************************************
+//			GETTERS AND SETTERS
+	//******************************************************
+	//******************************************************	
+	//******************************************************
+	
+	
+	public static char getBorderChar() {
+		return BORDERCHAR;
+	}
+	
+	public char[][] getCell() {
+		return cellCharMatrix;
+	}
+
+	public StringBuilder[] getCellSBArray() {
+		return cellSBArray;
+	}
+	
+	public static Integer getCellSize() {
+		if (cellSize == null) {
+			initializeSizeVariables();
+		}
+		return cellSize;
+	}
+	
+	public static Integer getInfoAreaSize() {
+		if (infoAreaSize == null) {
+			initializeSizeVariables();
+		}
+		return infoAreaSize;
+	}
 }

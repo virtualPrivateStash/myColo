@@ -1,6 +1,7 @@
 package de.dide.myColo.view.tui;
 
 import de.dide.myColo.view.tui.Tui;
+import de.dide.myColo.view.tui2.GameCell;
 
 public class GameString {
 
@@ -34,7 +35,7 @@ public class GameString {
 		gameCellMatrix = new GameCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
 		for (int y = 0; y < Tui.getGameFieldSize(); y++) {
 			for (int x = 0; x < Tui.getGameFieldSize(); x++) {
-				gameCellMatrix[x][y] = new GameCell();
+				gameCellMatrix[x][y] = new GameCell(x,y);
 			}
 		}
 	}
@@ -56,17 +57,16 @@ public class GameString {
 	 * 
 	 */
 	private void buildRowSBArrayFromGameCells() {
-		int nrOfRows = Tui.getCellSize() * Tui.getGameFieldSize();
+		int nrOfRows = GameCell.getCellSize() * Tui.getGameFieldSize();
 		int nrOfCols = Tui.getGameFieldSize();
 		gameFieldSB = new StringBuilder[nrOfCols][Tui.getGameFieldSize()];
 		
 		//copy single Rows of each cells sbArray into gameFieldSB
 		for (int i=0; i < (nrOfRows); i++) {
 			for (int j=0; j < nrOfCols; j++) {
-				gameFieldSB[i][j] = gameCellMatrix[ (i % Tui.getGameFieldSize()) ][ j ].getCellSBArray()[ (i % Tui.getCellSize()) ];								
+				gameFieldSB[i][j] = gameCellMatrix[ (i % Tui.getGameFieldSize()) ][ j ].getCellSBArray()[ (i % GameCell.getCellSize()) ];								
 			}
 		}
-		
 	}
 
 	private void copyAllGameCellsToCharMatrix() {
@@ -79,8 +79,8 @@ public class GameString {
 	}
 
 	private static void checkDimensionParams() {
-		length_row = Tui.getGameFieldSize() * Tui.getCellSize();
-		length_col = Tui.getGameFieldSize() *  Tui.getCellSize();
+		length_row = Tui.getGameFieldSize() * GameCell.getCellSize();
+		length_col = Tui.getGameFieldSize() *  GameCell.getCellSize();
 	}
 
 	/**
@@ -117,9 +117,9 @@ public class GameString {
 	 */
 	private void copyOneCellToGameCharMatrix(int cellIdx_x, int cellIdx_y) {
 		char[][] tmpArray = gameCellMatrix[cellIdx_x][cellIdx_y].getCell();
-		for (int x = 0; x < Tui.getCellSize(); x++) {
-			for (int y = 0; y < Tui.getCellSize(); y++) {
-				gameFieldAsCharMatrix[(cellIdx_x * Tui.getCellSize() ) + x ][(cellIdx_y * Tui.getCellSize() ) + y] = tmpArray[x][y];   
+		for (int x = 0; x < GameCell.getCellSize(); x++) {
+			for (int y = 0; y < GameCell.getCellSize(); y++) {
+				gameFieldAsCharMatrix[(cellIdx_x * GameCell.getCellSize() ) + x ][(cellIdx_y * GameCell.getCellSize() ) + y] = tmpArray[x][y];   
 			}
 		}
 	}	

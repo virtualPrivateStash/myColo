@@ -2,19 +2,19 @@ package de.dide.myColo.view.tui2;
 
 import de.dide.myColo.view.tui2.Tui;
 
-public class GameString {
+public class GameString_BackupBeforeFunctionAdding {
 
-	private static GameString instance;
+	private static GameString_BackupBeforeFunctionAdding instance;
 	private GameCell[][] gameCellMatrix; 
 	private StringBuilder[][] gameFieldSB; 
 		
-	private GameString() {
+	private GameString_BackupBeforeFunctionAdding() {
 		buildGameString();
 	}
 	
-	public static GameString getInstance() {
+	public static GameString_BackupBeforeFunctionAdding getInstance() {
 		if (instance == null) {	
-			instance = new GameString();
+			instance = new GameString_BackupBeforeFunctionAdding();
 		}
 		return instance;
 	}
@@ -31,7 +31,7 @@ public class GameString {
 		gameCellMatrix = new GameCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
 		for (int col = 0; col < Tui.getGameFieldSize(); col++) {
 			for (int row = 0; row < Tui.getGameFieldSize(); row++) {
-				gameCellMatrix[row][col] = new GameCell(row, col);
+				gameCellMatrix[row][col] = new GameCell();
 			}
 		}
 	}
