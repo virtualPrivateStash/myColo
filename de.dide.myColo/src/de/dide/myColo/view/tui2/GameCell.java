@@ -11,28 +11,33 @@ public class GameCell {
 
 	Controller controller = new MainController();
 	private char[][] cellCharMatrix;
-	private static Integer cellSize = 20;
+	private static Integer cellSize = null;
 	public static Integer infoAreaSize = null;
 	private static Integer charsStillEmpty = null; 
 	private  AbstractTerrain cellType = null;
 	private  StringBuilder[] infoSBArray = null;
 	private  StringBuilder[] cellSBArray = null;
+	private int coordX;
+	private int coordY;
 	
 	public static final char BORDERCHAR = '+';
 	public static final char FILLINCHAR = '-';
 	public static final int BORDERSIZE = 1;
 	private static final int CELLSIZE_MIN = 8;
 	private static final int CELLSIZE_MAX = 40;
+	private static final int CELLSIZE_DEFAULT = 20;	
 	public static final int INFOAREASIZE_MIN = 6;
 	public static final int INFOAREASIZE_MAX = 25;
 	public static final double INFOAREASIZE_FAKTOR = 0.7;
 	
 	
-	public GameCell() {
+	public GameCell(int idx_row, int idx_col) {
 
 		initializeSizeVariables();
 		cellCharMatrix = new char[cellSize][cellSize];
 		cellType = new Water();
+		coordX = idx_row;
+		coordY = idx_col;
 //		fillCell();
 //		fillCellWithSymbolChars();
 		paintCellViaColoredStringArray();
@@ -40,10 +45,9 @@ public class GameCell {
 
 	private static void initializeSizeVariables() {
 		
-		if (cellSize == null 
-				
-				
-				|| infoAreaSize == null || charsStillEmpty == null) {
+		if (cellSize == null || infoAreaSize == null || charsStillEmpty == null) {
+			
+			cellSize = CELLSIZE_DEFAULT;
 
 			if (cellSize < CELLSIZE_MIN || cellSize > CELLSIZE_MAX || cellSize <= 0) {
 				cellSize = CELLSIZE_MIN;
@@ -92,6 +96,10 @@ public class GameCell {
 			post.append(FILLINCHAR);
 		}		
 		
+		if ( (charsToFill % 2) == 1 ) {
+			post.append(FILLINCHAR);
+		}
+		
 		for (int i = 0; i < BORDERSIZE; i++) {
 			post.append(BORDERCHAR);
 			pre.insert(0, BORDERCHAR);
@@ -135,40 +143,37 @@ public class GameCell {
 	
 
 	private StringBuilder[] buildInfoArea() {
-		infoSBArray = new StringBuilder[infoAreaSize];
+		infoSBArray = new StringBuilder[3];
+//		infoSBArray = new StringBuilder[infoAreaSize];
 		String type = controller.getNameOfTerrainType(cellType);
 		StringBuilder row1 = new StringBuilder();
 		StringBuilder row2 = new StringBuilder();
+		StringBuilder row3 = new StringBuilder();
 
 		for (int i = 0; i < infoSBArray.length; i++) {
-			infoSBArray[i] = new StringBuilder(infoAreaSize);
+			infoSBArray[i] = new StringBuilder();
 		}
 		
-		row1.append("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv: " + type); 
-		row2.append(VisualConstants.getColoredString(VisualConstants.colorName.DEFAULT, new StringBuilder("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")));
-//		System.out.println("cellSize"+ cellSize);
-//		System.out.println("infoAreaSize: " + infoAreaSize);
-//		System.out.println("FILLINLINES: " + FILLINLINES);
-//		System.out.println("BORDERSIZE: " + BORDERSIZE);
+		
+		row1.append("Coord: " + coordX + "," + coordY);
+//		row1.append("cellType" + type);
+ 		row2.append("moveCost: " + cellType.getMoveCost());
+ 		row3.append("cellType: " + cellType.getNameOfTerrainType());
 
 		infoSBArray[0] = row1;
 		infoSBArray[1] = row2;
+		infoSBArray[2] = row3;
 		
 		for (int i = 0; i < infoSBArray.length; i++) {
+//			System.out.println("infoSBArray[i].length: " + infoSBArray[i].length());
+//			System.out.println("infoSBArray[i]: " + infoSBArray[i]);
 			infoSBArray[i] = applyInfoAreaFormat(infoSBArray[i]);
 		}
-
 		return infoSBArray;
 	}
-
 	
 	private StringBuilder applyInfoAreaFormat(StringBuilder row) {
 
-		if (row.length() > 2 ) {
-			System.out.println("aamfosidfoisdvoisdajgoaisjfsoidjfoisdjf");
-		}
-		
-		
 		//wenn noch chars frei dann mit FILLINCHAR auffüllen 
 		if (row.length() < infoAreaSize) {
 			int diff = infoAreaSize - row.length();
@@ -182,12 +187,11 @@ public class GameCell {
 			row = new StringBuilder(s);			
 		}
 		
-		System.out.println("row.length: " + row.length());
-		System.out.println("infoAreaSize: " + infoAreaSize);
-		
-		row = VisualConstants.getColoredString(VisualConstants.colorName.DEFAULT, row);
+		row = VisualConstants.getColoredString(VisualConstants.colorName.ALERT, row);
 		return row;
 	}
+	
+	
 	
 	//******************************************************	
 	//******************************************************
