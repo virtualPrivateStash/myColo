@@ -178,7 +178,7 @@ public class GameCell {
  			System.out.println("size von  unitList.size(): " + unitList.size());
  			row4.append(unitList.get(i).getName() + " ");
  		}
- 		//whutTESTeraseme!
+ 		
  		//overwrite empty stringBuiĺders with manually written one from above
 		infoSBArray[0] = row1;
 		infoSBArray[1] = row2;
