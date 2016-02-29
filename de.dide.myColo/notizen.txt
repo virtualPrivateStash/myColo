@@ -1,98 +1,43 @@
 nächste Schritte:
 
-- Consolenoutput farbig kriegen (wasser=blau,...)
+	CommandLine Funktionalität durch weitere Parameter erweitern (Scanner in)
 
 
-GameCell: künfigter Aufbau:
-
-	(?Randbereich(border)?, füllbereich(restliche freie Fläche in farben des CellTypes), infoArea fester Größe mit farblichen Hervorhebungen \
-																						 je nach Zelltyp und Belegung
-	
-	gameCell hat pro Zelle 																					 
-		-	String[] infoArea[infoAreaSize]
-		-   cellType
+ 	Rundenbasiertes Spielmodell logisch definieren ;)
+		int year = 1492;
+		ArrayList<Unit> allUnitsOfPlayer;
+			die liste zu beginn jeder Runde neu einlesen
+			
+			ArrayList<Unit> getAllUnitsOfPlayer() {
+				ArrayList<Unit> allUnits = new ArrayList<Unit>; 
+				for x < gameFieldSize
+					for y < gameFieldSize
+						allUnits.append(gameField.getCell[x][y].getUnitList());
+				
+				
+				
 		
-		- 	String[] wholeCell[cellSize]
-				baut eine String aus getColoredString(Füllzeichen) + infoArea[zeile] + getColoredString(füllzeichen)  
+	pro Zug:
+		liste mit allen Units einlesen		
+//		liste nach prioritäten ordnen
 		
-		liefert zurück:
-			String[] per getAsColoredStringArray.
+		//liste abarbeiten
+		pro Unit
+			for i < agility	 
+				Fokus auf das Feld mit der aktiven unit(=zelle farbig markieren)
+				User-Eingabe-Aufforderung (move, neustart, exit)
+				Eingabe dann einlesen und verarbeiten			
+					controller.moveUnit_Up();
+					controller.moveUnit_Right();
+					controller.moveUnit_Down();
+					controller.moveUnit_Left();
+					controller.startGame(); //start + neustart
+					controller.exitGame();			
+					
+		abFrage: nächste Runde?
+			
 		
-	GameString baut daraus:
-		
-																							 
-	
-
-
-
-
-
-- wenn der output-String gebildet wird, muss pro kopierter Zelle ein farb-string der max-länge cellSize gebildet werden
-
-	GameCell: neue paint-implementierung
-	gameCell hat noch ein enum[][] für den typ pro zeichen
-	
-	
-		festlegung: eine gameCell ist eine border, die eine cellInfoArea umschliesst:
-		
-		String[][] cellInfoArea = new String[infoAreaSize_X], infoAreaSize_Y
-	
-		enum charType = 
-		
-		colorFor
-		cellType 	(default, water, rock, colony, ...)
-		
-		
-		verschiedene Bereiche: Flächen in einer Zelle:
-		infoArea (isEmpty, cellType, unitsOnField, coordinates(xy)) 
-		Border
-		filling (blau für water, ...)		
-
-	GameString.copyOneColoredCellToGameCharMatrix
-
-
-
-
-
-
-- printCellInfoField() in GameCell bauen
-- gameFieldCharMatrix ohne doppelte Grenzen bauen
-
-
-
-
-model		
-	gameCell
-		cellType (land, water, town)
-	unit	
-		unitType: ship, person
-		
-		
-		
-view	
-	x*x matrix			
-	
-	
-	
-	
-	
-cellTypes:
-
-
-land 			(standard-wert mit allen default werten)
-rock
-desert
-tropical
-ice
-
-
-
-
-
-
-coast
-water
-	
-	
-
-	
+			
+			 	
+ 	
+ 	

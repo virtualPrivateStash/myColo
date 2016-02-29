@@ -14,15 +14,15 @@ public class ColGame {
 	public static final String TMP2 = "\u001B[39;2;150;25;25;m";
 	public static final String RESET = "\u001B[0m";
 
-	
-	public static void main(String[] args) {
-		MainController controller = new MainController();
-		Tui tui = Tui.getInstance(controller);
-		tui.printTuiToConsole();
+	private static Tui tui;
+	private static MainController controller;
 
+	public ColGame() {
+		controller = new MainController();
+		tui = Tui.getInstance(controller);
+		tui.printTuiToConsole();
 //		// Set up logging through log4j
 //		PropertyConfigurator.configure("log4j.properties");
-		
 		
 		//continue to read user input on the TUI until the user decides to quit
 		boolean continueGame = true;
@@ -31,7 +31,6 @@ public class ColGame {
 			continueGame = tui.processInputLine(scanner.next());
 		}
 		
-		
 //		System.out.println(RED + " This text must be in red " + RESET);
 //		System.out.println(GREEN + " This text must be in green " + RESET);
 //		System.out.println(TMP + " This text must be in tmp " + RESET);
@@ -39,4 +38,8 @@ public class ColGame {
 //		System.out.println(" This text must be a colourless string ");
 	}
 
+	public Tui getTui() {
+		return tui;
+	}
+	
 }
