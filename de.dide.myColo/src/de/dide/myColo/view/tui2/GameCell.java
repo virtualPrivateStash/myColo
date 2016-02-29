@@ -175,7 +175,7 @@ public class GameCell {
  		row4.append("unitList: ");
  		for (int i = 0; i < unitList.size(); i++) {
 // 			System.out.println("Under ńame ischt: " + unitList.get(i).getName());
- 			System.out.println("size von  unitList.size(): " + unitList.size());
+// 			System.out.println("size von  unitList.size(): " + unitList.size());
  			row4.append(unitList.get(i).getName() + " ");
  		}
  		
