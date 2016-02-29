@@ -12,9 +12,7 @@ import de.dide.myColo.model.units.Unit;
 import de.dide.myColo.model.units.unitType.impl.Civilian;
 
 public class GameCell {
-
 	Controller controller = new MainController();
-	private char[][] cellCharMatrix;
 	private static Integer cellSize = null;
 	public static Integer infoAreaSize = null;
 	private static Integer charsStillEmpty = null; 
@@ -35,22 +33,14 @@ public class GameCell {
 	public static final int INFOAREASIZE_MAX = 25;
 	public static final double INFOAREASIZE_FAKTOR = 0.7;
 	
-	
-
 	public GameCell(int idx_row, int idx_col) {
 		initializeSizeVariables();
-		cellCharMatrix = new char[cellSize][cellSize];
 		cellType = new Water();
 		coordX = idx_row;
 		coordY = idx_col;
-//		fillCell();
-//		fillCellWithSymbolChars();
-		unitList = new ArrayList<Unit>();
-		unitList.add(new Unit(0, 0, true, new Civilian(1)));
-		
-		
+//		unitList = new ArrayList<Unit>();
+//		unitList.add(new Unit(0, 0, true, new Civilian(1)));
 		paintCellViaColoredStringArray();
-
 	}
 
 	private static void initializeSizeVariables() {
@@ -75,6 +65,10 @@ public class GameCell {
 			}
 		}
 	}
+	
+	public void repaintCell() {
+		paintCellViaColoredStringArray();
+	};
 
 	private void paintCellViaColoredStringArray() {
 		buildInfoArea();
@@ -172,18 +166,21 @@ public class GameCell {
  		row2.append("moveCost: " + cellType.getMoveCost());
  		row3.append("cellType: " + cellType.getNameOfTerrainType());
 
- 		row4.append("unitList: ");
- 		for (int i = 0; i < unitList.size(); i++) {
-// 			System.out.println("Under ńame ischt: " + unitList.get(i).getName());
-// 			System.out.println("size von  unitList.size(): " + unitList.size());
- 			row4.append(unitList.get(i).getName() + " ");
+ 		if (unitList != null) {
+	 		row4.append("unitList: ");
+	 		for (int i = 0; i < unitList.size(); i++) {
+	// 			System.out.println("Under ńame ischt: " + unitList.get(i).getName());
+	// 			System.out.println("size von  unitList.size(): " + unitList.size());
+	 			row4.append(unitList.get(i).getName() + " ");
+	 		}
+			infoSBArray[3] = row4;
  		}
  		
  		//overwrite empty stringBuiĺders with manually written one from above
 		infoSBArray[0] = row1;
 		infoSBArray[1] = row2;
 		infoSBArray[2] = row3;
-		infoSBArray[3] = row4;
+
 		
 		for (int i = 0; i < infoSBArray.length; i++) {
 //			System.out.println("infoSBArray[i].length: " + infoSBArray[i].length());
@@ -212,7 +209,7 @@ public class GameCell {
 		return row;
 	}
 	
-	void addUnit(Unit addMe) {
+	public void addUnit(Unit addMe) {
 		if (unitList == null) {
 			unitList = new ArrayList<Unit>();
 		}
@@ -234,10 +231,6 @@ public class GameCell {
 		return BORDERCHAR;
 	}
 	
-	public char[][] getCell() {
-		return cellCharMatrix;
-	}
-
 	public StringBuilder[] getCellSBArray() {
 		return cellSBArray;
 	}

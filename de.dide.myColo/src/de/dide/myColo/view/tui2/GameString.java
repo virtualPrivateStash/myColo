@@ -1,5 +1,9 @@
 package de.dide.myColo.view.tui2;
 
+import java.util.ArrayList;
+
+import de.dide.myColo.model.units.Unit;
+import de.dide.myColo.model.units.unitType.impl.Civilian;
 import de.dide.myColo.view.tui2.Tui;
 
 public class GameString {
@@ -32,15 +36,23 @@ public class GameString {
 		for (int col = 0; col < Tui.getGameFieldSize(); col++) {
 			for (int row = 0; row < Tui.getGameFieldSize(); row++) {
 				gameCellMatrix[row][col] = new GameCell(row, col);
+				
+//				if (col == 1 && row == 1) {
+//					System.out.println(gameCellMatrix[1][1].toString());
+//					gameCellMatrix[1][1].addUnit(new Unit(0, 0, true, new Civilian(1)));
 			}
 		}
+		gameCellMatrix[1][1].addUnit(new Unit(0, 0, true, new Civilian(1)));
+		gameCellMatrix[1][1].repaintCell();
 	}
+	
+
 
 	public void paint2() {
 		buildRowSBArrayFromGameCells();
 		printGameFieldSB();
 	}
-	
+
 	/**
 	 * copy single Rows of each cells sbArray to the correct position of gameFieldSB
 	 */
