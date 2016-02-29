@@ -161,7 +161,6 @@ public class GameCell {
 			infoSBArray[i] = new StringBuilder();
 		}
 		
-		
 		row1.append("Coord: " + coordX + "," + coordY);
  		row2.append("moveCost: " + cellType.getMoveCost());
  		row3.append("cellType: " + cellType.getNameOfTerrainType());
@@ -174,6 +173,7 @@ public class GameCell {
 	 			row4.append(unitList.get(i).getName() + " ");
 	 		}
 			infoSBArray[3] = row4;
+
  		}
  		
  		//overwrite empty stringBuiĺders with manually written one from above
