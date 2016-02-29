@@ -1,11 +1,15 @@
 package de.dide.myColo.view.tui2;
 
+import java.util.ArrayList;
+
 import javax.swing.border.Border;
 
 import de.dide.myColo.controller.Controller;
 import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.terrain.AbstractTerrain;
 import de.dide.myColo.model.terrain.impl.Water;
+import de.dide.myColo.model.units.Unit;
+import de.dide.myColo.model.units.unitType.impl.Civilian;
 
 public class GameCell {
 
@@ -19,20 +23,21 @@ public class GameCell {
 	private  StringBuilder[] cellSBArray = null;
 	private int coordX;
 	private int coordY;
+	private ArrayList<Unit> unitList;
 	
 	public static final char BORDERCHAR = '+';
 	public static final char FILLINCHAR = '-';
 	public static final int BORDERSIZE = 1;
 	private static final int CELLSIZE_MIN = 8;
 	private static final int CELLSIZE_MAX = 40;
-	private static final int CELLSIZE_DEFAULT = 20;	
+	private static final int CELLSIZE_DEFAULT = 30;	
 	public static final int INFOAREASIZE_MIN = 6;
 	public static final int INFOAREASIZE_MAX = 25;
 	public static final double INFOAREASIZE_FAKTOR = 0.7;
 	
 	
-	public GameCell(int idx_row, int idx_col) {
 
+	public GameCell(int idx_row, int idx_col) {
 		initializeSizeVariables();
 		cellCharMatrix = new char[cellSize][cellSize];
 		cellType = new Water();
@@ -40,7 +45,12 @@ public class GameCell {
 		coordY = idx_col;
 //		fillCell();
 //		fillCellWithSymbolChars();
+		unitList = new ArrayList<Unit>();
+		unitList.add(new Unit(0, 0, true, new Civilian(1)));
+		
+		
 		paintCellViaColoredStringArray();
+
 	}
 
 	private static void initializeSizeVariables() {
@@ -143,26 +153,37 @@ public class GameCell {
 	
 
 	private StringBuilder[] buildInfoArea() {
-		infoSBArray = new StringBuilder[3];
+		infoSBArray = new StringBuilder[4];
 //		infoSBArray = new StringBuilder[infoAreaSize];
 		String type = controller.getNameOfTerrainType(cellType);
 		StringBuilder row1 = new StringBuilder();
 		StringBuilder row2 = new StringBuilder();
 		StringBuilder row3 = new StringBuilder();
+		StringBuilder row4 = new StringBuilder();
 
+		//System.out.println(infoSBArray.length);
+		
 		for (int i = 0; i < infoSBArray.length; i++) {
 			infoSBArray[i] = new StringBuilder();
 		}
 		
 		
 		row1.append("Coord: " + coordX + "," + coordY);
-//		row1.append("cellType" + type);
  		row2.append("moveCost: " + cellType.getMoveCost());
  		row3.append("cellType: " + cellType.getNameOfTerrainType());
 
+ 		row4.append("unitList: ");
+ 		for (int i = 0; i < unitList.size(); i++) {
+// 			System.out.println("Under ńame ischt: " + unitList.get(i).getName());
+ 			System.out.println("size von  unitList.size(): " + unitList.size());
+ 			row4.append(unitList.get(i).getName() + " ");
+ 		}
+ 		
+ 		//overwrite empty stringBuiĺders with manually written one from above
 		infoSBArray[0] = row1;
 		infoSBArray[1] = row2;
 		infoSBArray[2] = row3;
+		infoSBArray[3] = row4;
 		
 		for (int i = 0; i < infoSBArray.length; i++) {
 //			System.out.println("infoSBArray[i].length: " + infoSBArray[i].length());
@@ -189,6 +210,13 @@ public class GameCell {
 		
 		row = VisualConstants.getColoredString(VisualConstants.colorName.ALERT, row);
 		return row;
+	}
+	
+	void addUnit(Unit addMe) {
+		if (unitList == null) {
+			unitList = new ArrayList<Unit>();
+		}
+		unitList.add(addMe);
 	}
 	
 	
@@ -227,4 +255,9 @@ public class GameCell {
 		}
 		return infoAreaSize;
 	}
+
+	public ArrayList<Unit> getUnitList() {
+		return unitList;
+	}
+
 }
