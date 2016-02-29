@@ -9,7 +9,6 @@ import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.terrain.AbstractTerrain;
 import de.dide.myColo.model.terrain.impl.Water;
 import de.dide.myColo.model.units.Unit;
-import de.dide.myColo.model.units.unitType.impl.Civilian;
 
 public class GameCell {
 	Controller controller = new MainController();
@@ -28,7 +27,7 @@ public class GameCell {
 	public static final int BORDERSIZE = 1;
 	private static final int CELLSIZE_MIN = 8;
 	private static final int CELLSIZE_MAX = 40;
-	private static final int CELLSIZE_DEFAULT = 30;	
+	private static final int CELLSIZE_DEFAULT = 14;	
 	public static final int INFOAREASIZE_MIN = 6;
 	public static final int INFOAREASIZE_MAX = 25;
 	public static final double INFOAREASIZE_FAKTOR = 0.7;

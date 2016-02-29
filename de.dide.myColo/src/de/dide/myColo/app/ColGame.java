@@ -1,6 +1,10 @@
 package de.dide.myColo.app;
 
+import java.util.Scanner;
+
+import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.view.tui2.Tui;
+
 
 public class ColGame {
 
@@ -12,8 +16,21 @@ public class ColGame {
 
 	
 	public static void main(String[] args) {
-		Tui tui = Tui.getInstance();
+		MainController controller = new MainController();
+		Tui tui = Tui.getInstance(controller);
 		tui.printTuiToConsole();
+
+//		// Set up logging through log4j
+//		PropertyConfigurator.configure("log4j.properties");
+		
+		
+		//continue to read user input on the TUI until the user decides to quit
+		boolean continueGame = true;
+		Scanner scanner = new Scanner(System.in);
+		while (continueGame) {
+			continueGame = tui.processInputLine(scanner.next());
+		}
+		
 		
 //		System.out.println(RED + " This text must be in red " + RESET);
 //		System.out.println(GREEN + " This text must be in green " + RESET);

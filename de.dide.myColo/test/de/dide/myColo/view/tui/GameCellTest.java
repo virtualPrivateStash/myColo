@@ -1,6 +1,6 @@
 package de.dide.myColo.view.tui;
 
-import de.dide.myColo.view.tui.Tui;
+import de.dide.myColo.view.tui2.Tui;
 import de.dide.myColo.view.tui2.GameCell;
 
 import static org.junit.Assert.*;
