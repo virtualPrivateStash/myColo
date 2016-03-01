@@ -4,40 +4,27 @@ nächste Schritte:
 
 
  	Rundenbasiertes Spielmodell logisch definieren ;)
-		int year = 1492;
-		ArrayList<Unit> allUnitsOfPlayer;
-			die liste zu beginn jeder Runde neu einlesen
 			
-			ArrayList<Unit> getAllUnitsOfPlayer() {
-				ArrayList<Unit> allUnits = new ArrayList<Unit>; 
+			List<Unit> getAllUnitsOfPlayersMap() {
+				List<Unit> allUnits = new List<Unit>; 
 				for x < gameFieldSize
 					for y < gameFieldSize
-						allUnits.append(gameField.getCell[x][y].getUnitList());
+					 	for i < gameField.getCell[x][y].getUnitList().size()
+							allUnits.append(gameField.getCell[x][y].getUnit(i));
 				
+			void setAllUnitsOnPlayersMap(List<Unit> list) {
+				 
+				for x < gameFieldSize
+					for y < gameFieldSize
+					 	for i < gameField.getCell[x][y].getUnitList().size()
+							allUnits.append(gameField.getCell[x][y].addUnit(i));
+
+
 				
-				
-		
 	pro Zug:
 		liste mit allen Units einlesen		
-//		liste nach prioritäten ordnen
-		
+		liste nach prioritäten ordnen
 		//liste abarbeiten
-		pro Unit
-			for i < agility	 
-				Fokus auf das Feld mit der aktiven unit(=zelle farbig markieren)
-				User-Eingabe-Aufforderung (move, neustart, exit)
-				Eingabe dann einlesen und verarbeiten			
-					controller.moveUnit_Up();
-					controller.moveUnit_Right();
-					controller.moveUnit_Down();
-					controller.moveUnit_Left();
-					controller.startGame(); //start + neustart
-					controller.exitGame();			
-					
-		abFrage: nächste Runde?
 			
 		
-			
-			 	
- 	
- 	
+irgendwie unitList mit an gameCell verbinden bzw zuweisungsfunktion	
