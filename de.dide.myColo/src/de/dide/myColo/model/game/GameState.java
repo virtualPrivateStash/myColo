@@ -63,7 +63,7 @@ public class GameState {
 		return isOnTurn;
 	}
 
-	public void setTurnFinished(boolean turnFinished) {
-		this.isOnTurn = turnFinished;
+	public void setIsOnTurn(boolean onTurn) {
+		this.isOnTurn = onTurn;
 	}	
 }

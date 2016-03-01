@@ -47,12 +47,13 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 	public boolean processInputLine(String line, GameState gamestate) {
 		int yearCurrentRound = gamestate.getYear();
 		while ( yearCurrentRound == gamestate.getYear()) {
-	
 			continueGame = true;
 			char c = line.charAt(0);
 			continueGame = checkArgsForGameOptions(c, line);
+			if (!continueGame) {
+					break;
+			}
 			continueGame = checkArgsForMoveCommands(c, line);
-
 		}
 		return continueGame;
 	}
@@ -64,6 +65,7 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 			case 'q':		//quit
 				System.out.println("Quit Program (command q was given)");
 				continueGame = false;
+				//return continueGame;
 				break;
 			case 'h':		//show help
 				System.out.println("Hier mal die Hilfe anzeigen...");

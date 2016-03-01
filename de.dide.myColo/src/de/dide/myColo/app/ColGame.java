@@ -1,9 +1,6 @@
 package de.dide.myColo.app;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,12 +26,10 @@ public class ColGame {
 	
 	public ColGame() {
 		controller = new MainController();
-		gameState = new GameState();
-		
-		createFirstGameState(gameState);
+		gameState = createFirstGameState();
 		
 		tui = Tui.getInstance(controller, gameState);
-		//tui.printTuiToConsole();
+		tui.printTuiToConsole();
 //		// Set up logging through log4j
 //		PropertyConfigurator.configure("log4j.properties");
 		
@@ -45,7 +40,7 @@ public class ColGame {
 		while (continueGame) {
 			continueGame = playTheGame(scanner, gameState);
 		}
-		
+		System.out.println("Hier endet das Spiel..");
 //		System.out.println(RED + " This text must be in red " + RESET)
 	}
 
@@ -58,9 +53,12 @@ public class ColGame {
 			for (int i = 0; i < gameState.getUnitList().size(); i++) {
 				//while unit (still) has turn processInputLine 
 				while (gameState.isOnTurn()) {
-					System.out.println("vor processInputLine");
-					continueGame = tui.processInputLine(scanner.next() , gameState);
-					System.out.println("aaaaaaaaa");
+					System.out.println("\nBitte geben Sie einen Buchstaben ein: ");
+					continueGame = tui.processInputLine(scanner.next(), gameState);
+					if (!continueGame) {
+						gameState.setIsOnTurn(false);
+						break;
+					}
 				}
 			}
 			//add for example a gui or logger or whatever here
@@ -68,16 +66,18 @@ public class ColGame {
 		return continueGame;
 	}
 
-	private void createFirstGameState(GameState gameState) {
-		gameState.setYear(2000);;
-		gameState.setTurnFinished(true);
+	private GameState createFirstGameState() {
+		GameState newState = new GameState();
+		newState.setYear(2000);;
+		newState.setIsOnTurn(true);
 		
 		Unit unit1 = new Unit(0, 0, true, new Civilian(1));
 		Unit unit2 = new Unit(1, 1, true, new Civilian(2));
 		Unit unit3 = new Unit(2, 2, true, new Civilian(3)); 
 				
 		List<Unit> newUnitList = Arrays.asList(unit1, unit2, unit3);
-		gameState.setUnitList(newUnitList);
+		newState.setUnitList(newUnitList);
+		return newState;
 	}
 	
 	public Tui getTui() {
