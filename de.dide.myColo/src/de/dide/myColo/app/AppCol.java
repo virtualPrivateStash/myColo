@@ -9,7 +9,7 @@ public class AppCol {
 	}
 
 	private static void firstGameSetUp() {
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		System.out.println("WELCOME TO THE FIRST STEPS OF MYCOLO");
 		ColGame erstesSpiel = new ColGame();
 		//hier können logger usw. eingefügt werden 
 	}

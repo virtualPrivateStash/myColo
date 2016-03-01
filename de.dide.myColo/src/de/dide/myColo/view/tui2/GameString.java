@@ -2,6 +2,7 @@ package de.dide.myColo.view.tui2;
 
 import java.util.ArrayList;
 
+import de.dide.myColo.model.game.GameState;
 import de.dide.myColo.model.units.Unit;
 import de.dide.myColo.model.units.unitType.impl.Civilian;
 import de.dide.myColo.view.tui2.Tui;
@@ -11,6 +12,7 @@ public class GameString {
 	private static GameString instance;
 	private GameCell[][] gameCellMatrix; 
 	private StringBuilder[][] gameFieldSB; 
+	private GameState gameState;
 		
 	private GameString() {
 		buildGameString();
