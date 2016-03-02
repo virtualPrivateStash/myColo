@@ -1,7 +1,7 @@
 package de.dide.myColo.view.tui;
 
 import de.dide.myColo.view.tui2.Tui;
-import de.dide.myColo.view.tui2.GameCell;
+import de.dide.myColo.view.tui2.TuiCell;
 
 import static org.junit.Assert.*;
 
@@ -11,16 +11,16 @@ import org.junit.Test;
 
 public class GameCellTest {
 
-	private GameCell sut;
-	final static int CELLSIZE = GameCell.getCellSize();
+	private TuiCell sut;
+	final static int CELLSIZE = TuiCell.getCellSize();
 	char[] constructedArray;
-	char BORDERCHAR = GameCell.getBorderChar(); 
+	char BORDERCHAR = TuiCell.getBorderChar(); 
 	
 	@Before
 	public void setUp() throws Exception {
-		sut = new GameCell(0,0);
+		sut = new TuiCell(0,0);
 		constructedArray = new char[CELLSIZE];
-		GameCell.getBorderChar();
+		TuiCell.getBorderChar();
 	}
 
 	@After

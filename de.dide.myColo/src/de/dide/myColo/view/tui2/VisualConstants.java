@@ -42,7 +42,7 @@ public class VisualConstants {
 				colorString.append(COL_RESET);
 				break;
 				
-				//GAMEFIELD-COLORS
+		//GAMEFIELD-COLORS
 			case DEFAULT:
 				colorString.append(COL_GREEN);
 				break;
@@ -50,7 +50,7 @@ public class VisualConstants {
 				colorString.append(COL_BLUE_OWN);
 				break;		
 
-				//TEXT-COLORS
+		//TEXT-COLORS
 			case ALERT:
 				colorString.append(COL_ALERT);
 				break;

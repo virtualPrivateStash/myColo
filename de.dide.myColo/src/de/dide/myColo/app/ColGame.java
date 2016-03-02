@@ -1,6 +1,7 @@
 package de.dide.myColo.app;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,61 +10,102 @@ import de.dide.myColo.model.game.GameState;
 import de.dide.myColo.model.units.Unit;
 import de.dide.myColo.model.units.unitType.impl.Civilian;
 import de.dide.myColo.view.tui2.Tui;
-
+import de.dide.myColo.view.tui2.VisualConstants;
 
 public class ColGame {
 
-	public static final String RED = "\u001B[31m";
+	public static final String RED = "\u001B[91m";
 	public static final String GREEN = "\u001B[32m";
 	public static final String TMP = "\u001B[38;5;155m";
 	public static final String TMP2 = "\u001B[39;2;150;25;25;m";
 	public static final String RESET = "\u001B[0m";
-	private static GameState gameState = null;
 
+	private static GameState gameState = null;
 	private Tui tui;
 	private static MainController controller;
 
 	
 	public ColGame() {
+		//INITIALIZE
 		controller = new MainController();
 		gameState = createFirstGameState();
-		
 		tui = Tui.getInstance(controller, gameState);
 		tui.printTuiToConsole();
-//		// Set up logging through log4j
 //		PropertyConfigurator.configure("log4j.properties");
 		
-		//continue to read user input on the TUI until the user decides to quit
+		//read user input from the TUI until game quits
 		boolean continueGame = true;
-//		System.out.println(System.in.getClass());
 		Scanner scanner = new Scanner(System.in);
 		while (continueGame) {
 			continueGame = playTheGame(scanner, gameState);
 		}
-		System.out.println("Hier endet das Spiel..");
-//		System.out.println(RED + " This text must be in red " + RESET)
+		
+		//LAST LINES BEFORE GAME ENDS
+		System.out.println(GREEN + "Hier endet das Spiel.." + RESET);
+		System.out.println(VisualConstants.getColoredString(VisualConstants.colorName.ALERT, new StringBuilder("Hier endet das Spiel..")).toString());
 	}
 
 	private boolean playTheGame(Scanner scanner, GameState gameState) {
 		boolean continueGame = true;
-
-		while (continueGame) {
+		continueGame = playOneRound(scanner, gameState);
+		return continueGame;
+	}
+		
+		
+	private boolean playOneRound(Scanner scanner, GameState gameState) {
+		boolean yearNotOver = true;
+		LinkedList<Unit> unitList = gameState.getUnitList();
+		Unit unit;
+		//nur zum allerersten mal??
+		//Zellen ihre Units per unitList mitteilen 
+		System.out.println("Year " +gameState.getYear()+ " just started :)\n");
+		
+		while (yearNotOver) {	
 			
-			//for every unit in UnitList
+			
+			try 
+			{
+				unit = unitList.pop();
+				
+			} 
+			catch (Exception e) 
+			{
+
+				yearNotOver = false;
+				
+			}
+
+		}
+		
+//		//UNITLIST ABARBEITEN (ALLE UNITS DES SPIELERS PER LOOP VERARBEITEN) 
+//		while ( unitList.size() > 0 ) 
+// 
+//			
+//		dann
+//		for unit in unitList 
+//			controller.execUnitsActions(unit)
+//	
+//			wann unitList aktualisieren bzw. was ist die funktion von unitList
+//				
+//			
+		
+//		for (int i=0; i<unitList.size(); i++) {
+//			//for every unit in UnitList
 			for (int i = 0; i < gameState.getUnitList().size(); i++) {
 				//while unit (still) has turn processInputLine 
 				while (gameState.isOnTurn()) {
 					System.out.println("\nBitte geben Sie einen Buchstaben ein: ");
-					continueGame = tui.processInputLine(scanner.next(), gameState);
-					if (!continueGame) {
+					yearNotOver = tui.processInputLine(scanner.next(), gameState);
+					if (!yearNotOver) {
 						gameState.setIsOnTurn(false);
 						break;
 					}
 				}
 			}
 			//add for example a gui or logger or whatever here
-		}
-		return continueGame;
+//		}
+//				
+		return yearNotOver;
 	}
 
 	private GameState createFirstGameState() {
@@ -76,7 +118,7 @@ public class ColGame {
 		Unit unit3 = new Unit(2, 2, true, new Civilian(3)); 
 				
 		List<Unit> newUnitList = Arrays.asList(unit1, unit2, unit3);
-		newState.setUnitList(newUnitList);
+		//newState.setUnitList(newUnitList);
 		return newState;
 	}
 	

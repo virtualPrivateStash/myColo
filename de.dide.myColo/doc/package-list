@@ -1,0 +1,14 @@
+de.dide.myColo.app
+de.dide.myColo.controller
+de.dide.myColo.controller.impl
+de.dide.myColo.model.game
+de.dide.myColo.model.gameField.impl
+de.dide.myColo.model.gameField.impl.Terrain
+de.dide.myColo.model.terrain
+de.dide.myColo.model.terrain.impl
+de.dide.myColo.model.units
+de.dide.myColo.model.units.unitType
+de.dide.myColo.model.units.unitType.impl
+de.dide.myColo.util.observer
+de.dide.myColo.view.tui2
+testingForLearning

@@ -2,6 +2,7 @@ package de.dide.myColo.model.game;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import de.dide.myColo.model.units.Unit;
@@ -12,12 +13,12 @@ public class GameState {
 	private int year;
 	private boolean isOnTurn = true;
 	Unit activeUnit;
-	List<Unit> unitList;
+	LinkedList<Unit> unitList;
 
 	
-	public GameState(List<Unit> unitList, int year) {
+	public GameState(LinkedList<Unit> unitList, int year) {
 		if (unitList == null) {
-			this.unitList = Arrays.asList(new Unit(0, 0, true, new Civilian(1)));
+			this.unitList = new LinkedList<Unit>(Arrays.asList(new Unit(0, 0, true, new Civilian(1))));
 		}
 		if (year < 1 ) {
 			year = 1492;
@@ -48,14 +49,15 @@ public class GameState {
 	
 	public GameState(){
 		year = 1492;
-		unitList = getUnitList();
+		unitList = new LinkedList<Unit>(); 
+//		getPreparedUnitList();
 	}
 	
-	public List<Unit> getUnitList() {
+	public LinkedList<Unit> getUnitList() {
 		return unitList;
 	}
 
-	public void setUnitList(List<Unit> list) {
+	public void setUnitList(LinkedList<Unit> list) {
 		unitList = list;
 	}
 	

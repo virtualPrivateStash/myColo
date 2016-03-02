@@ -28,3 +28,33 @@ nächste Schritte:
 			
 		
 irgendwie unitList mit an gameCell verbinden bzw zuweisungsfunktion	
+
+
+for year:
+
+checkForGameEvents
+	//colGameMethoden
+			neue karte einlesen (zwecks anderer Player, andere Länder (AI))
+			(year++)
+			 
+	//siedlungen updaten (gibt es neuerungen? 
+								gebäude fertig
+								siedler erlernt Beruf
+								Siedler verhungert
+								...
+			
+gamecells aktualisieren 
+	unitList aktualisieren oder ersetzen
+	Farben aktualisieren (welches land/player hält die zelle, ...)
+update zeichnet alle gamecells neu
+
+
+=====================================
+jetzt erstmal:
+
+		
+		unitList mit GameCell verbinden
+
+
+
+

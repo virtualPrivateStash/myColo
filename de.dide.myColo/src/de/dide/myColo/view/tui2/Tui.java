@@ -13,9 +13,9 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 	private static GameState gameState;
 	
 	private Tui(MainController controller, GameState gameState) {
-			this.controller = controller;
-			gameState = gameState;
-			controller.addObserver(this);
+		this.controller = controller;
+		gameState = gameState;
+		controller.addObserver(this);
 		gameString = GameString.getInstance();
 	}
 	

@@ -9,7 +9,7 @@ public abstract class AbstractTerrain {
 	private boolean isLand = true;
 	
 	public AbstractTerrain() {
-				
+		nameOfTerrainType = "abstractTerrain";
 	}
 	
 	
