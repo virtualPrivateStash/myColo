@@ -12,8 +12,8 @@ public class GameState {
 
 	private int year;
 	private boolean isOnTurn = true;
-	Unit activeUnit;
-	LinkedList<Unit> unitList;
+	private Unit activeUnit;
+	private LinkedList<Unit> unitList;
 
 	
 	public GameState(LinkedList<Unit> unitList, int year) {
@@ -37,6 +37,10 @@ public class GameState {
 		this.year = year;
 	}
 
+	public void incrementYear() {
+		year++;
+	}
+	
 	public boolean isFinished() {
 		return finished;
 	}
@@ -49,7 +53,7 @@ public class GameState {
 	
 	public GameState(){
 		year = 1492;
-		unitList = new LinkedList<Unit>(); 
+//		unitList = new LinkedList<Unit>(); 
 //		getPreparedUnitList();
 	}
 	

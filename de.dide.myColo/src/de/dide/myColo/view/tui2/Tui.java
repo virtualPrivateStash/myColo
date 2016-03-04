@@ -14,11 +14,10 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 	
 	private Tui(MainController controller, GameState gameState) {
 		this.controller = controller;
-		gameState = gameState;
+		this.gameState = gameState;
 		controller.addObserver(this);
 		gameString = GameString.getInstance();
 	}
-	
 	
 	public static Tui getInstance(MainController controller, GameState gameState) {
 	  if (instance == null) {
@@ -45,16 +44,13 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 
 	
 	public boolean processInputLine(String line, GameState gamestate) {
-		int yearCurrentRound = gamestate.getYear();
-		while ( yearCurrentRound == gamestate.getYear()) {
-			continueGame = true;
-			char c = line.charAt(0);
-			continueGame = checkArgsForGameOptions(c, line);
-			if (!continueGame) {
-					break;
-			}
-			continueGame = checkArgsForMoveCommands(c, line);
+		continueGame = true;
+		char c = line.charAt(0);
+		continueGame = checkArgsForGameOptions(c, line);
+		if (!continueGame) {
+				return false;
 		}
+		continueGame = checkArgsForMoveCommands(c, line);
 		return continueGame;
 	}
 
@@ -84,18 +80,18 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 				System.out.println("trying to move unit to:\t\tLEFT");
 				controller.moveUnit_Left();
 				break;
-//			case '6':	//RIGHT
-//				System.out.println("trying to move unit to:\t\tRIGHT");
+			case '6':	//RIGHT
+				System.out.println("trying to move unit to:\t\tRIGHT");
 //				controller.moveUnit_Right();
-//				break;
-//			case '8':	//UP
-//				System.out.println("trying to move unit to:\t\tUP");
+				break;
+			case '8':	//UP
+				System.out.println("trying to move unit to:\t\tUP");
 //				controller.moveUnit_Up();
-//				break;
-//			case '2':	//DOWN
-//				System.out.println("trying to move unit to:\t\tDOWN");
+				break;
+			case '2':	//DOWN
+				System.out.println("trying to move unit to:\t\tDOWN");
 //				controller.moveUnit_Down();
-//				break;
+				break;
 			case '7':	//UP_LEFT
 				System.out.println("trying to move unit to:\t\tUP_LEFT");
 				break;

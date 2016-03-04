@@ -19,6 +19,7 @@ public class ColGame {
 	public static final String TMP = "\u001B[38;5;155m";
 	public static final String TMP2 = "\u001B[39;2;150;25;25;m";
 	public static final String RESET = "\u001B[0m";
+	private static String askForInputString;
 
 	private static GameState gameState = null;
 	private Tui tui;
@@ -30,7 +31,9 @@ public class ColGame {
 		controller = new MainController();
 		gameState = createFirstGameState();
 		tui = Tui.getInstance(controller, gameState);
-		tui.printTuiToConsole();
+		askForInputString = createAskForInputString();
+		//tui.printTuiToConsole();
+		
 //		PropertyConfigurator.configure("log4j.properties");
 		
 		//read user input from the TUI until game quits
@@ -43,6 +46,39 @@ public class ColGame {
 		//LAST LINES BEFORE GAME ENDS
 		System.out.println(GREEN + "Hier endet das Spiel.." + RESET);
 		System.out.println(VisualConstants.getColoredString(VisualConstants.colorName.ALERT, new StringBuilder("Hier endet das Spiel..")).toString());
+	}
+
+	private String createAskForInputString() {
+		StringBuilder sb = new StringBuilder(); 
+		
+		sb.append("Es stehen folgende Keys zur Verfügung:\n");
+		
+		String[] commandArray = new String[20];
+		
+		//MOVE DIRECTIONS
+		commandArray[1] = "\t--> 1 <--\tgo DOWN LEFT";
+		commandArray[2] = "\t--> 2 <--\tgo 	 DOWN";
+		commandArray[3] = "\t--> 3 <--\tgo DOWN RIGHT";
+		commandArray[4] = "\t--> 4 <--\tgo 	 LEFT";
+		commandArray[5] = "\t--> 6 <--\tgo 	 RIGHT";
+		commandArray[6] = "\t--> 7 <--\tgo  UP  LEFT";
+		commandArray[7] = "\t--> 8 <--\tgo      UP";
+		commandArray[8] = "\t--> 9 <--\tgo  UP  RIGHT";
+		commandArray[9] = "\t--> 5 <--\t NOT IMPLEMENTED YET";
+
+		//OTHER COMMANDS
+		String q = "\t--> q <--\t Beendet das Programm";
+		String h = "\t--> h <--\t zeigt irgendwann die Hilfe zu MyColo an";
+		commandArray[10] = q;
+		commandArray[11] = h;
+		
+		for (int i = 0; i < commandArray.length; i++) {
+			if (commandArray[i] != null) {
+				sb.append(commandArray[i] + "\n");	
+			}
+		}
+		
+		return sb.toString();
 	}
 
 	private boolean playTheGame(Scanner scanner, GameState gameState) {
@@ -58,56 +94,57 @@ public class ColGame {
 		Unit unit;
 		//nur zum allerersten mal??
 		//Zellen ihre Units per unitList mitteilen 
-		System.out.println("Year " +gameState.getYear()+ " just started :)\n");
-		
+		System.out.println("Year " +gameState.getYear()+ " just started :)");
 		while (yearNotOver) {	
 			
-			
+			//for each unit in unitList ask user for input action
 			try 
 			{
 				unit = unitList.pop();
-				
+				yearNotOver = processUnit(scanner);
+				//unit muss etwas tun
+
+
 			} 
+			//if UnitList is empty end turn
 			catch (Exception e) 
 			{
-
 				yearNotOver = false;
-				
 			}
-
+			
+			if (yearNotOver == false) {
+				gameState.incrementYear();
+			}
+			
 		}
-		
-//		//UNITLIST ABARBEITEN (ALLE UNITS DES SPIELERS PER LOOP VERARBEITEN) 
+		//		//UNITLIST ABARBEITEN (ALLE UNITS DES SPIELERS PER LOOP VERARBEITEN) 
 //		while ( unitList.size() > 0 ) 
-// 
-//			
 //		dann
 //		for unit in unitList 
 //			controller.execUnitsActions(unit)
 //	
 //			wann unitList aktualisieren bzw. was ist die funktion von unitList
-//				
-//			
-		
-//		for (int i=0; i<unitList.size(); i++) {
-//			//for every unit in UnitList
-			for (int i = 0; i < gameState.getUnitList().size(); i++) {
-				//while unit (still) has turn processInputLine 
-				while (gameState.isOnTurn()) {
-					System.out.println("\nBitte geben Sie einen Buchstaben ein: ");
-					yearNotOver = tui.processInputLine(scanner.next(), gameState);
-					if (!yearNotOver) {
-						gameState.setIsOnTurn(false);
-						break;
-					}
-				}
-			}
-			//add for example a gui or logger or whatever here
-//		}
-//				
+
 		return yearNotOver;
 	}
-
+	
+	private boolean processUnit(Scanner scanner) {
+		//while unit (still) has turn processInputLine 
+		while (gameState.isOnTurn()) {
+			System.out.println("\nBitte geben Sie einen Buchstaben ein: ");
+			
+			//Eingabe-Aufforderung ausgeben
+			System.out.println(createAskForInputString());
+			
+			 gameState.setIsOnTurn(tui.processInputLine(scanner.next(), gameState));
+//			if () {
+//				gameState.setIsOnTurn(false);
+//				break;
+//			}
+		}
+		return gameState.isOnTurn(); 
+	}
+	
 	private GameState createFirstGameState() {
 		GameState newState = new GameState();
 		newState.setYear(2000);;
@@ -117,7 +154,13 @@ public class ColGame {
 		Unit unit2 = new Unit(1, 1, true, new Civilian(2));
 		Unit unit3 = new Unit(2, 2, true, new Civilian(3)); 
 				
-		List<Unit> newUnitList = Arrays.asList(unit1, unit2, unit3);
+		//LinkedList<Unit> newUnitList = new LinkedList<Unit>(Arrays.asList(unit1, unit2, unit3));
+		LinkedList<Unit> newUnitList = new LinkedList<Unit>();
+		newUnitList.add(unit1);
+		newUnitList.add(unit2);
+		newUnitList.add(unit3);
+		
+		newState.setUnitList(newUnitList);
 		//newState.setUnitList(newUnitList);
 		return newState;
 	}
@@ -127,3 +170,4 @@ public class ColGame {
 	}
 	
 }
+
