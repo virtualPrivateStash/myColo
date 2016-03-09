@@ -37,7 +37,6 @@ public class GameString {
 		createAndFillGameCellMatrix();
 	}
 	
-	
 	private void createAndFillGameCellMatrix() {
 		gameCellMatrix = new GameCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
 		tuiCellMatrix = new TuiCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
@@ -46,7 +45,7 @@ public class GameString {
 				
 				LinkedList<Unit> list = getUnitListFromCell(row, col);
 				gameCellMatrix[row][col] = new GameCell(row, col, list);
-				tuiCellMatrix[row][col] = new TuiCell(gameCellMatrix[row][col]);
+				tuiCellMatrix[row][col] = new TuiCell(gameCellMatrix[row][col], list);
 //				if (col == 1 && row == 1) {
 //					System.out.println(gameCellMatrix[1][1].toString());
 //					gameCellMatrix[1][1].addUnit(new Unit(0, 0, true, new Civilian(1)));

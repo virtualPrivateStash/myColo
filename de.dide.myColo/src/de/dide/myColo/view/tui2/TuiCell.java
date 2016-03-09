@@ -1,14 +1,11 @@
 package de.dide.myColo.view.tui2;
 
-import java.util.ArrayList;
-
-import javax.swing.border.Border;
+import java.util.LinkedList;
 
 import de.dide.myColo.controller.Controller;
 import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.gameField.impl.GameCell;
 import de.dide.myColo.model.terrain.AbstractTerrain;
-import de.dide.myColo.model.terrain.impl.Water;
 import de.dide.myColo.model.units.Unit;
 
 public class TuiCell {
@@ -21,26 +18,28 @@ public class TuiCell {
 	private  StringBuilder[] cellSBArray = null;
 	private int coordX;
 	private int coordY;
-	private ArrayList<Unit> unitList;
+	private LinkedList<Unit> unitList;
 	
 	public static final char BORDERCHAR = '+';
 	public static final char FILLINCHAR = '-';
 	public static final int BORDERSIZE = 1;
 	private static final int CELLSIZE_MIN = 8;
 	private static final int CELLSIZE_MAX = 40;
-	private static final int CELLSIZE_DEFAULT = 14;	
-	public static final int INFOAREASIZE_MIN = 6;
+	private static final int CELLSIZE_DEFAULT = 20;	
+	public static final int INFOAREASIZE_MIN = 8;
 	public static final int INFOAREASIZE_MAX = 25;
 	public static final double INFOAREASIZE_FAKTOR = 0.7;
 	
-	public TuiCell(GameCell cell) {
+	public TuiCell(GameCell cell, LinkedList<Unit> list) {
 		initializeSizeVariables();
 		coordX = cell.getCellIdx_X();
 		coordY = cell.getCellIdx_Y();
 		cellType = cell.getCellType();
 //		unitList = new LinkedList<Unit>();
 //		unitList.add(new Unit(0, 0, true, new Civilian(1)));
+		unitList = list;
 		paintCellViaColoredStringArray();
+
 	}
 
 	private static void initializeSizeVariables() {
@@ -64,6 +63,9 @@ public class TuiCell {
 				charsStillEmpty = 0;
 			}
 		}
+		System.out.println("cellSize: " + cellSize);
+		System.out.println("infoAreaSize: " + infoAreaSize);
+		System.out.println("charsStillEmpty: " + charsStillEmpty);
 	}
 	
 	public void repaintCell() {
@@ -86,7 +88,7 @@ public class TuiCell {
 		for (int i=0; i< cellSize; i++) {
 			borderLine.append(BORDERCHAR);
 		}
-		
+			
 		////lines with space covered by infoArray		
 		int coveredLines = infoSBArray.length;
 		
@@ -147,32 +149,35 @@ public class TuiCell {
 	
 
 	private StringBuilder[] buildInfoArea() {
-		infoSBArray = new StringBuilder[4];
+		int manualLines = 4;
+		infoSBArray = new StringBuilder[infoAreaSize - manualLines];
 		String type = controller.getNameOfTerrainType(cellType);
+		StringBuilder row0 = new StringBuilder();
 		StringBuilder row1 = new StringBuilder();
 		StringBuilder row2 = new StringBuilder();
 		StringBuilder row3 = new StringBuilder();
-		StringBuilder row4 = new StringBuilder();
 
 		for (int i = 0; i < infoSBArray.length; i++) {
 			infoSBArray[i] = new StringBuilder();
 		}
-		row1.append("Coord: " + coordX + "," + coordY);
- 		row2.append("moveCost: " + cellType.getMoveCost());
- 		row3.append("cellType: " + cellType.getNameOfTerrainType());
+		row0.append("Coord: " + coordX + "," + coordY);
+ 		row1.append("moveCost: " + cellType.getMoveCost());
+ 		row2.append("cellType: " + cellType.getNameOfTerrainType());
+ 		row3.append("unitList: ");
 
- 		if (unitList != null) {
-	 		row4.append("unitList: ");
-	 		for (int i = 0; i < unitList.size(); i++) {
-	 			row4.append(unitList.get(i).getName() + " ");
-	 		}
-			infoSBArray[3] = row4;
- 		}
+		infoSBArray[0] = row0;
+		infoSBArray[1] = row1;
+		infoSBArray[2] = row2;
+		infoSBArray[3] = row3;
  		
- 		//overwrite empty stringBuiĺders with manually written one from above
-		infoSBArray[0] = row1;
-		infoSBArray[1] = row2;
-		infoSBArray[2] = row3;
+ 		if (unitList != null) {
+	 		String[] unitLines = new String[unitList.size()];
+	 		
+	 		for (int i = 0; i < unitList.size(); i++) {
+	 			unitLines[i] = "unit: " + unitList.get(i).getName();
+	 			infoSBArray[manualLines + i] = new StringBuilder(unitLines[i]);
+	 		}
+ 		}
 
 		for (int i = 0; i < infoSBArray.length; i++) {
 			infoSBArray[i] = applyInfoAreaFormat(infoSBArray[i]);
