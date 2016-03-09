@@ -1,7 +1,9 @@
 package de.dide.myColo.view.tui2;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
+import de.dide.myColo.app.ColGame;
 import de.dide.myColo.model.game.GameState;
 import de.dide.myColo.model.gameField.impl.GameCell;
 import de.dide.myColo.model.units.Unit;
@@ -17,6 +19,7 @@ public class GameString {
 	private static TuiCell[][] tuiCellMatrix;
 			
 	private GameString() {
+		gameState = ColGame.getGameState();
 		buildGameString();
 	}
 	
@@ -26,7 +29,7 @@ public class GameString {
 		}
 		return instance;
 	}
-
+	
 	/**
 	 * fills cellArray with n*n new cells
 	 */
@@ -40,7 +43,9 @@ public class GameString {
 		tuiCellMatrix = new TuiCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
 		for (int col = 0; col < Tui.getGameFieldSize(); col++) {
 			for (int row = 0; row < Tui.getGameFieldSize(); row++) {
-				gameCellMatrix[row][col] = new GameCell(row, col, null);
+				
+				LinkedList<Unit> list = getUnitListFromCell(row, col);
+				gameCellMatrix[row][col] = new GameCell(row, col, list);
 				tuiCellMatrix[row][col] = new TuiCell(gameCellMatrix[row][col]);
 //				if (col == 1 && row == 1) {
 //					System.out.println(gameCellMatrix[1][1].toString());
@@ -52,6 +57,23 @@ public class GameString {
 	}
 	
 
+
+	private LinkedList<Unit> getUnitListFromCell(int row, int col) {
+		LinkedList<Unit> allCellsUnits = new LinkedList<Unit>();
+		LinkedList<Unit> oneCellsUnits = new LinkedList<Unit>();
+		allCellsUnits = gameState.getUnitList();
+		
+		//check unitList for units with position matching the given cell coordinates
+		for (int i=0; i < allCellsUnits.size(); i++) {
+			Unit tmpUnit = allCellsUnits.get(i);
+			if (tmpUnit.getCoordX() == row ) {
+				if (tmpUnit.getCoordY() == col ) {
+					oneCellsUnits.add(tmpUnit);
+				}
+			}
+		}
+		return oneCellsUnits;
+	}
 
 	public void paint2() {
 		buildRowSBArrayFromGameCells();

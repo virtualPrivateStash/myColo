@@ -21,10 +21,10 @@ public class ColGame {
 	public static final String RESET = "\u001B[0m";
 	private static String askForInputString;
 
-	private static GameState gameState = null;
+	private static GameState gameState;
+
 	private Tui tui;
 	private static MainController controller;
-
 	
 	public ColGame() {
 		//INITIALIZE
@@ -32,20 +32,8 @@ public class ColGame {
 		gameState = createFirstGameState();
 		tui = Tui.getInstance(controller, gameState);
 		askForInputString = createAskForInputString();
-		//tui.printTuiToConsole();
-		
+		tui.printTuiToConsole();
 //		PropertyConfigurator.configure("log4j.properties");
-		
-		//read user input from the TUI until game quits
-		boolean continueGame = true;
-		Scanner scanner = new Scanner(System.in);
-		while (continueGame) {
-			continueGame = playTheGame(scanner, gameState);
-		}
-		
-		//LAST LINES BEFORE GAME ENDS
-		System.out.println(GREEN + "Hier endet das Spiel.." + RESET);
-		System.out.println(VisualConstants.getColoredString(VisualConstants.colorName.ALERT, new StringBuilder("Hier endet das Spiel..")).toString());
 	}
 
 	private String createAskForInputString() {
@@ -81,74 +69,9 @@ public class ColGame {
 		return sb.toString();
 	}
 
-	private boolean playTheGame(Scanner scanner, GameState gameState) {
-		boolean continueGame = true;
-		continueGame = playOneRound(scanner, gameState);
-		return continueGame;
-	}
-		
-		
-	private boolean playOneRound(Scanner scanner, GameState gameState) {
-		boolean yearNotOver = true;
-		LinkedList<Unit> unitList = gameState.getUnitList();
-		Unit unit;
-		//nur zum allerersten mal??
-		//Zellen ihre Units per unitList mitteilen 
-		System.out.println("Year " +gameState.getYear()+ " just started :)");
-		while (yearNotOver) {	
-			
-			//for each unit in unitList ask user for input action
-			try 
-			{
-				unit = unitList.pop();
-				yearNotOver = processUnit(scanner);
-				//unit muss etwas tun
-
-
-			} 
-			//if UnitList is empty end turn
-			catch (Exception e) 
-			{
-				yearNotOver = false;
-			}
-			
-			if (yearNotOver == false) {
-				gameState.incrementYear();
-			}
-			
-		}
-		//		//UNITLIST ABARBEITEN (ALLE UNITS DES SPIELERS PER LOOP VERARBEITEN) 
-//		while ( unitList.size() > 0 ) 
-//		dann
-//		for unit in unitList 
-//			controller.execUnitsActions(unit)
-//	
-//			wann unitList aktualisieren bzw. was ist die funktion von unitList
-
-		return yearNotOver;
-	}
-	
-	private boolean processUnit(Scanner scanner) {
-		//while unit (still) has turn processInputLine 
-		while (gameState.isOnTurn()) {
-			System.out.println("\nBitte geben Sie einen Buchstaben ein: ");
-			
-			//Eingabe-Aufforderung ausgeben
-			System.out.println(createAskForInputString());
-			
-			 gameState.setIsOnTurn(tui.processInputLine(scanner.next(), gameState));
-//			if () {
-//				gameState.setIsOnTurn(false);
-//				break;
-//			}
-		}
-		return gameState.isOnTurn(); 
-	}
-	
 	private GameState createFirstGameState() {
-		GameState newState = new GameState();
-		newState.setYear(2000);;
-		newState.setIsOnTurn(true);
+		
+		GameState newState = new GameState(null, 1000);
 		
 		Unit unit1 = new Unit(0, 0, true, new Civilian(1));
 		Unit unit2 = new Unit(1, 1, true, new Civilian(2));
@@ -165,9 +88,84 @@ public class ColGame {
 		return newState;
 	}
 	
+	public void playGame() {
+		//READ USER INPUT FROM TUI UNTIL GAME ENDS
+		boolean continueGame = true;
+		Scanner scanner = new Scanner(System.in);
+		while (continueGame) {
+			continueGame = playTheGame(scanner, gameState);
+		}
+		//LAST LINES BEFORE GAME ENDS
+		System.out.println(GREEN + "Hier endet das Spiel.." + RESET);
+		System.out.println(VisualConstants.getColoredString(VisualConstants.colorName.ALERT, new StringBuilder("Hier endet das Spiel..")).toString());
+	}
+	
+	private boolean playTheGame(Scanner scanner, GameState gameState) {
+		return playOneRound(scanner, gameState);
+	}
+	
+	/**
+	 * Play one round of the game meaning action with each unit of Player.
+	 * @param scanner
+	 * @param gameState
+	 * @return
+	 */
+	private boolean playOneRound(Scanner scanner, GameState gameState) {
+		boolean yearNotOver = true;
+		LinkedList<Unit> unitList = gameState.getUnitList();
+		Unit unit;
+		//nur zum allerersten mal??
+		//Zellen ihre Units per unitList mitteilen 
+		System.out.println("Year " +gameState.getYear()+ " just started :)");
+		while (yearNotOver) {	
+			//for each unit in unitList ask user for input action
+			try 
+			{
+				unit = unitList.pop();
+				boolean unitIsOnTurn = true;
+				while (unitIsOnTurn) {
+					unitIsOnTurn = processUnit(unit, scanner);					
+				}
+				//unit muss etwas tun
+				//läuft per controller
+				//feld dann neu zeichnen
+			} 
+			//if UnitList is empty end turn
+			catch (Exception e) 
+			{
+				yearNotOver = false;
+				System.out.println("unitList ist abgearbeitet...");
+			}
+			
+			if (yearNotOver == false) {
+				gameState.incrementYear();
+			}
+		}
+		return yearNotOver;
+	}
+	
+	private boolean processUnit(Unit unit, Scanner scanner) {
+		//while unit (still) has turn processInputLine 
+		while (gameState.isOnTurn()) {
+
+			//Eingabe-Aufforderung ausgeben
+			System.out.println(createAskForInputString());
+			
+			//
+			gameState.setIsOnTurn(tui.processInputLine(unit, scanner.next(), gameState));
+//			if () {
+//				gameState.setIsOnTurn(false);
+//				break;
+//			}
+		}
+		return gameState.isOnTurn(); 
+	}
+	
 	public Tui getTui() {
 		return tui;
 	}
 	
+	public static GameState getGameState() {
+		return gameState;
+	}
 }
-

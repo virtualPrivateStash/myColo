@@ -17,14 +17,19 @@ public class MainController extends Observable implements Controller{
 		return "dummyString";
 	}
 
-	public void moveUnit_Left() {
-		//schreibe units coordinaten für x = x-1 
-	System.out.println("leeeefttt!");
+	public void moveUnit_Left(Unit unit) {
+		//schreibe units coordinaten für x = x-1
+
+		// TODO Auto-generated method stub
+		
+		//notifyObservers
+		this.notifyAll();
 	}
 //	public void moveUnit_Up(){}
 //	public void moveUnit_Right(){}
 //	public void moveUnit_Down(){}
-
+	// TODO Auto-generated method stub
+	
 	@Override
 	public GameCell getGameCell(int row, int col) {
 		// TODO Auto-generated method stub
@@ -33,11 +38,12 @@ public class MainController extends Observable implements Controller{
 
 	@Override
 	public void setGameCell(GameCell cell) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public LinkedList<Unit> getUnitList() {
-		
+		// TODO Auto-generated method stub		
 		return null;
 	}
 
@@ -61,13 +67,13 @@ public class MainController extends Observable implements Controller{
 
 	@Override
 	public int getCellIdx_X() {
-		
+		// TODO Auto-generated method stub		
 		return 0;
 	}
 
 	@Override
 	public int getCellIdx_Y() {
-
+		// TODO Auto-generated method stub
 		return 0;
 	}
 	

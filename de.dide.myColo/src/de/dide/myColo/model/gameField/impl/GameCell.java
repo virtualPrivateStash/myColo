@@ -33,9 +33,6 @@ public class GameCell {
 		unitList.add(addMe);
 	}
 
-	public LinkedList<Unit> getUnitList() {
-		return unitList;
-	}
 
 	public int getCellIdx_X() {
 		

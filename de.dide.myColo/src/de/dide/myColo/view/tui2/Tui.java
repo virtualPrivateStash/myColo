@@ -2,6 +2,7 @@ package de.dide.myColo.view.tui2;
 
 import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.game.GameState;
+import de.dide.myColo.model.units.Unit;
 import de.dide.myColo.util.observer.Event;
 
 public class Tui implements de.dide.myColo.util.observer.IObserver{
@@ -15,8 +16,9 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 	private Tui(MainController controller, GameState gameState) {
 		this.controller = controller;
 		this.gameState = gameState;
-		controller.addObserver(this);
 		gameString = GameString.getInstance();
+
+		controller.addObserver(this);
 	}
 	
 	public static Tui getInstance(MainController controller, GameState gameState) {
@@ -43,14 +45,14 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 	}
 
 	
-	public boolean processInputLine(String line, GameState gamestate) {
+	public boolean processInputLine(Unit unit, String line, GameState gamestate) {
 		continueGame = true;
 		char c = line.charAt(0);
 		continueGame = checkArgsForGameOptions(c, line);
 		if (!continueGame) {
 				return false;
 		}
-		continueGame = checkArgsForMoveCommands(c, line);
+		continueGame = checkArgsForMoveCommands(unit, c, line);
 		return continueGame;
 	}
 
@@ -72,13 +74,13 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 		return continueGame;
 	}
 	
-	private boolean checkArgsForMoveCommands(char c, String line) {
+	private boolean checkArgsForMoveCommands(Unit unit, char c, String line) {
 		
 		continueGame = true; 
 		switch (c) {
 			case '4':	//LEFT
 				System.out.println("trying to move unit to:\t\tLEFT");
-				controller.moveUnit_Left();
+				controller.moveUnit_Left(unit);
 				break;
 			case '6':	//RIGHT
 				System.out.println("trying to move unit to:\t\tRIGHT");
