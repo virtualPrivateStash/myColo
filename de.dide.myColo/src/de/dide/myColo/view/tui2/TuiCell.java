@@ -27,7 +27,7 @@ public class TuiCell {
 	private static final int CELLSIZE_MIN = 8;
 	private static final int CELLSIZE_MAX = 40;
 	private static final int CELLSIZE_DEFAULT = 16;	
-	public static final int INFOAREASIZE_MIN = 14;
+	public static final int INFOAREASIZE_MIN = 10;
 	public static final int INFOAREASIZE_MAX = 25;
 	public static final double INFOAREASIZE_FAKTOR = 0.7;
 	
@@ -101,7 +101,6 @@ public class TuiCell {
 		StringBuilder post = new StringBuilder();
 		
 		for (int i = 0; i < (charsStillEmpty / 2); i++) {
-			System.out.println("jetzt postappend");
 			pre.append(Colors.createColorStr(cellType.getColor(), new String(String.valueOf(FILLINCHAR))));
 			post.append(Colors.createColorStr(cellType.getColor(), new String(String.valueOf(FILLINCHAR))));
 		}		
@@ -189,9 +188,19 @@ public class TuiCell {
  		if (unitList != null) {
 	 		String[] unitLines = new String[unitList.size()];
 	 		
-	 		for (int i = 0; i < unitList.size(); i++) {
+	 		int loopNr = unitList.size();
+	 		if (unitList.size() + manualLines >= infoSBArray.length) {
+	 			loopNr = infoSBArray.length - manualLines;
+	 		} 
+	 		
+//	 		System.out.println("unitList.size(): " + unitList.size());
+//	 		System.out.println("infoAreaSize: " + infoAreaSize);
+//	 		System.out.println("manualLines: " + manualLines);
+//	 		System.out.println("loopNr: " + loopNr);
+	 		
+	 		for (int i = 0; i < loopNr; i++) {
 	 			unitLines[i] = "unit:  " + unitList.get(i).getName();
-	 			infoSBArray[manualLines + i] = new StringBuilder(unitLines[i]);
+	 			infoSBArray[manualLines + i ] = new StringBuilder(unitLines[i]);
 	 		}
  		}
 
