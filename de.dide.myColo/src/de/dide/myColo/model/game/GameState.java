@@ -11,7 +11,7 @@ import de.dide.myColo.model.units.unitType.impl.Civilian;
 public class GameState {
 
 	private int year;
-	private boolean isOnTurn = false;
+	private boolean isOnTurn = true;
 	private LinkedList<Unit> unitList;
 		
 	public GameState(LinkedList<Unit> list, int year) {
@@ -32,7 +32,7 @@ public class GameState {
 		this.year = year;
 		
 		//SET ISUNTURN
-		isOnTurn = false;
+		isOnTurn = true;
 	}
 	
 	public int getYear() {

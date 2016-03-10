@@ -126,6 +126,7 @@ public class ColGame {
 			try 
 			{
 				unit = unitList.pop();
+				System.out.println("unitList nicht leer");
 				boolean unitIsOnTurn = true;
 				while (unitIsOnTurn) {
 					unitIsOnTurn = processUnit(unit, scanner);					
@@ -143,26 +144,21 @@ public class ColGame {
 			
 			if (yearNotOver == false) {
 				gameState.incrementYear();
+				System.out.println("Das Jahr ist jetzt zu Ende...");
 			}
 		}
 		return yearNotOver;
 	}
 	
 	private boolean processUnit(Unit unit, Scanner scanner) {
-		//while unit (still) has turn processInputLine 
-		while (gameState.isOnTurn()) {
+		//while unit has turn process input 
 
-			//Eingabe-Aufforderung ausgeben
-			System.out.println(createAskForInputString());
-			
-			//
-			gameState.setIsOnTurn(tui.processInputLine(unit, scanner.next(), gameState));
-//			if () {
-//				gameState.setIsOnTurn(false);
-//				break;
-//			}
-		}
-		return gameState.isOnTurn(); 
+		//Eingabe-Aufforderung ausgeben
+		System.out.println(createAskForInputString());
+		
+		boolean tmp = true;
+		tmp = tui.processInputLine(unit, scanner.next(), gameState);
+		return tmp; 
 	}
 	
 	public Tui getTui() {

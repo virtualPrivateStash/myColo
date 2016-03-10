@@ -111,11 +111,8 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 				System.out.println("Quit Program (command q was given)");
 				continueGame = false;
 				break;				
-				
-			default:		//if none of the above cases applied 
-//				finishedAfterSwitchCase = false;
+			default: 
 		}
-		
 		return continueGame;
 	}
 

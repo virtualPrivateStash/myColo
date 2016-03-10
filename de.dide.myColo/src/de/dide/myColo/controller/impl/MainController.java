@@ -23,7 +23,7 @@ public class MainController extends Observable implements Controller{
 		// TODO Auto-generated method stub
 		
 		//notifyObservers
-		this.notifyAll();
+//		this.notifyAll();
 	}
 //	public void moveUnit_Up(){}
 //	public void moveUnit_Right(){}
