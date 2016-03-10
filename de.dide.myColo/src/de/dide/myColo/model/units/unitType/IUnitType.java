@@ -6,6 +6,6 @@ public interface  IUnitType {
 	//Type getTypeOfUnit;
 	String getName();
 	int getAgility();
-	
+	String getColor();
 	
 }

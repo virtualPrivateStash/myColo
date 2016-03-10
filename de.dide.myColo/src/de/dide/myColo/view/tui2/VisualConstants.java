@@ -2,16 +2,17 @@ package de.dide.myColo.view.tui2;
 
 public class VisualConstants {
 	
-	private static final String COL_RESET = "\u001B[0m";
-	private static final String COL_RED = "\u001B[31m";
-	private static final String COL_GREEN = "\u001B[32m";
-	private static final String COL_TMP = "\u001B[38;5;155m";
-	private static final String COL_BLUE_OWN = "\u001B[38;5;21m";
+	public static final String COL_RESET = "\u001B[0m";
+	public static final String COL_RED = "\u001B[31m";
+	public static final String COL_GREEN = "\u001B[32m";
+	public static final String COL_TMP = "\u001B[38;5;155m";
+	public static final String COL_BLUE_OWN = "\u001B[38;5;21m";
 
-	private static final String COL_ALERT = "\u001B[91m";
-	//private static final String COL_STANDARD = "\u001B[37m";
-	private static final String COL_STD_BLACK = "\u001B[30M";
-	private static final String COL_INFO_AREA = "\u001B[37m";	
+	public static final String COL_ALERT = "\u001B[91m";
+	//public static final String COL_STANDARD = "\u001B[37m";
+	public static final String COL_STD_BLACK = "\u001B[30M";
+	public static final String COL_INFO_AREA = "\u001B[37m";
+	public static final String COL_CIVILIAN = COL_STD_BLACK;	
 
 	
 	
@@ -32,9 +33,6 @@ public class VisualConstants {
 	
 	};
 	
-
-	
-
 	public static StringBuilder getColoredString(colorName color, StringBuilder message) {
 		StringBuilder colorString = new StringBuilder();
 		switch (color) {

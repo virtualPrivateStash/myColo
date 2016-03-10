@@ -7,12 +7,17 @@ public abstract class AbstractTerrain {
 	private int movecost = MOVECOST_STD;
 	private boolean isFree = true;
 	private boolean isLand = true;
+	private final String terrainColor;
 	
-	public AbstractTerrain() {
+	public AbstractTerrain(String color) {
 		nameOfTerrainType = "abstractTerrain";
+		terrainColor = color;
+	}  
+	
+	public String getColor() {
+		return terrainColor;
 	}
-	
-	
+
 	public int getMoveCost() {
 		return getMovecost();
 	}
@@ -43,5 +48,9 @@ public abstract class AbstractTerrain {
 
 	public void setNameOfTerrainType(String name) {
     	this.nameOfTerrainType = name;
+	}
+
+	public String getTerrainColor() {
+		return terrainColor;
 	}
 }

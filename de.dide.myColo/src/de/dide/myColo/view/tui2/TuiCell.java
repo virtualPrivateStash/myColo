@@ -7,6 +7,7 @@ import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.gameField.impl.GameCell;
 import de.dide.myColo.model.terrain.AbstractTerrain;
 import de.dide.myColo.model.units.Unit;
+import de.dide.myColo.util.Colors;
 
 public class TuiCell {
 	Controller controller = new MainController();
@@ -25,8 +26,8 @@ public class TuiCell {
 	public static final int BORDERSIZE = 1;
 	private static final int CELLSIZE_MIN = 8;
 	private static final int CELLSIZE_MAX = 40;
-	private static final int CELLSIZE_DEFAULT = 20;	
-	public static final int INFOAREASIZE_MIN = 8;
+	private static final int CELLSIZE_DEFAULT = 16;	
+	public static final int INFOAREASIZE_MIN = 14;
 	public static final int INFOAREASIZE_MAX = 25;
 	public static final double INFOAREASIZE_FAKTOR = 0.7;
 	
@@ -63,9 +64,9 @@ public class TuiCell {
 				charsStillEmpty = 0;
 			}
 		}
-		System.out.println("cellSize: " + cellSize);
-		System.out.println("infoAreaSize: " + infoAreaSize);
-		System.out.println("charsStillEmpty: " + charsStillEmpty);
+//		System.out.println("cellSize: " + cellSize);
+//		System.out.println("infoAreaSize: " + infoAreaSize);
+//		System.out.println("charsStillEmpty: " + charsStillEmpty);
 	}
 	
 	public void repaintCell() {
@@ -83,53 +84,68 @@ public class TuiCell {
 	private StringBuilder[] integrateInfoAreaAndBorderChars() {
 		cellSBArray = new StringBuilder[cellSize];
 		
+		String borderColor = Colors.COL_BORDER;
+		String coloredBorderChar = Colors.createColorStr(borderColor, String.valueOf(BORDERCHAR));
+		
+		
 		//fill one line with borderChars as copy-paste material
-		StringBuilder borderLine= new StringBuilder(cellSize);
+		StringBuilder borderLine= new StringBuilder();
 		for (int i=0; i< cellSize; i++) {
 			borderLine.append(BORDERCHAR);
 		}
-			
-		////lines with space covered by infoArray		
-		int coveredLines = infoSBArray.length;
+		String borderLineStr = Colors.createColorStr(borderColor, borderLine.toString());
 		
-		int charsToFill = cellSize - (2 * BORDERSIZE) - infoAreaSize;
-	
+		//lines with space covered by infoArray		
+		int coveredLines = infoSBArray.length;
 		StringBuilder pre = new StringBuilder();
 		StringBuilder post = new StringBuilder();
-
-		for (int i = 0; i < (charsToFill / 2); i++) {
-			pre.append(FILLINCHAR);
-			post.append(FILLINCHAR);
+		
+		for (int i = 0; i < (charsStillEmpty / 2); i++) {
+			System.out.println("jetzt postappend");
+			pre.append(Colors.createColorStr(cellType.getColor(), new String(String.valueOf(FILLINCHAR))));
+			post.append(Colors.createColorStr(cellType.getColor(), new String(String.valueOf(FILLINCHAR))));
 		}		
 		
-		if ( (charsToFill % 2) == 1 ) {
+		if ( (charsStillEmpty % 2) == 1 ) {
 			post.append(FILLINCHAR);
 		}
 		
+		StringBuilder tmpSb = new StringBuilder();
+		//append chars for left and right border
 		for (int i = 0; i < BORDERSIZE; i++) {
-			post.append(BORDERCHAR);
-			pre.insert(0, BORDERCHAR);
+			tmpSb.append(BORDERCHAR);
 		}
+		String borderig = Colors.createColorStr(borderColor, tmpSb.toString());
+		
+		pre = new StringBuilder().append(borderig).append(pre);
+		post.append(borderig);
+
+		String str_pre = pre.toString();
+		String str_post = post.toString();
 		
 		for (int i=0; i<coveredLines; i++) {
 			cellSBArray[BORDERSIZE + i] = new StringBuilder(cellSize);
-			cellSBArray[BORDERSIZE + i].append(pre.toString() + infoSBArray[i].toString() + post.toString());
+			cellSBArray[BORDERSIZE + i].append(str_pre + infoSBArray[i].toString() + str_post);
 		}
 		
 		//fill empty rows after...
 		int rowsWithNull = cellSize - 2*BORDERSIZE - infoSBArray.length;
+		String fillCharColor = Colors.createColorStr(cellType.getColor(), String.valueOf(BORDERCHAR));
 		
 		if (rowsWithNull > 0) {
 			for (int i=0; i < rowsWithNull; i++) {
 				StringBuilder fillLine = new StringBuilder();
 				
 				int fillWithFillChar = cellSize - 2 * BORDERSIZE;
+				
+				for (int k=0; k< (BORDERSIZE); k++) {
+					fillLine.append(coloredBorderChar);
+				}
 				for (int j=0; j< (fillWithFillChar); j++) {
-					fillLine.append(FILLINCHAR);
+					fillLine.append(fillCharColor);
 				}
 				for (int k=0; k< (BORDERSIZE); k++) {
-					fillLine.insert(k, BORDERCHAR);
-					fillLine.append(BORDERCHAR);
+					fillLine.append(coloredBorderChar);
 				}
 				//rowsWithNull einfügen in cellSBArray
 				int tmpIndex = BORDERSIZE + infoSBArray.length + i;
@@ -139,10 +155,10 @@ public class TuiCell {
 		
 		////add non-covered lines (borderCharLines)
 		for (int i = 0; i < BORDERSIZE; i++) {
-			cellSBArray[i] = new StringBuilder(cellSize);
-			cellSBArray[i].append(borderLine);
+			cellSBArray[i] = new StringBuilder(borderLineStr);
 			
-			cellSBArray[cellSize -i-1] = new StringBuilder(borderLine);
+			
+			cellSBArray[cellSize -i-1] = new StringBuilder(borderLineStr);
 		}
 		return cellSBArray;
 	}
@@ -161,9 +177,9 @@ public class TuiCell {
 			infoSBArray[i] = new StringBuilder();
 		}
 		row0.append("Coord: " + coordX + "," + coordY);
- 		row1.append("moveCost: " + cellType.getMoveCost());
- 		row2.append("cellType: " + cellType.getNameOfTerrainType());
- 		row3.append("unitList: ");
+ 		row1.append("moveC: " + cellType.getMoveCost());
+ 		row2.append("cellT: " + cellType.getNameOfTerrainType());
+ 		row3.append("unitL: ");
 
 		infoSBArray[0] = row0;
 		infoSBArray[1] = row1;
@@ -174,7 +190,7 @@ public class TuiCell {
 	 		String[] unitLines = new String[unitList.size()];
 	 		
 	 		for (int i = 0; i < unitList.size(); i++) {
-	 			unitLines[i] = "unit: " + unitList.get(i).getName();
+	 			unitLines[i] = "unit:  " + unitList.get(i).getName();
 	 			infoSBArray[manualLines + i] = new StringBuilder(unitLines[i]);
 	 		}
  		}
@@ -199,7 +215,7 @@ public class TuiCell {
 			row = null;
 			row = new StringBuilder(s);			
 		}
-		row = VisualConstants.getColoredString(VisualConstants.colorName.ALERT, row);
+		row = VisualConstants.getColoredString(VisualConstants.colorName.DEFAULT, row);
 		return row;
 	}
 	

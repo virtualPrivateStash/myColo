@@ -82,6 +82,10 @@ public class ColGame {
 		newUnitList.add(unit1);
 		newUnitList.add(unit2);
 		newUnitList.add(unit3);
+		newUnitList.add(unit3);
+		newUnitList.add(unit3);
+		newUnitList.add(unit3);
+		newUnitList.add(unit3);
 		
 		newState.setUnitList(newUnitList);
 		//newState.setUnitList(newUnitList);
