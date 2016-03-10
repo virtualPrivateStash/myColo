@@ -20,6 +20,7 @@ public class ColGame {
 	public static final String TMP2 = "\u001B[39;2;150;25;25;m";
 	public static final String RESET = "\u001B[0m";
 	private static String askForInputString;
+	private static boolean gameOver = false;
 
 	private static GameState gameState;
 
@@ -96,16 +97,16 @@ public class ColGame {
 		//READ USER INPUT FROM TUI UNTIL GAME ENDS
 		boolean continueGame = true;
 		Scanner scanner = new Scanner(System.in);
-		while (continueGame) {
-			continueGame = playTheGame(scanner, gameState);
+		while (!ColGame.isGameOver()) {
+			playTheGame(scanner, gameState);
 		}
 		//LAST LINES BEFORE GAME ENDS
 		System.out.println(GREEN + "Hier endet das Spiel.." + RESET);
 		System.out.println(VisualConstants.getColoredString(VisualConstants.colorName.ALERT, new StringBuilder("Hier endet das Spiel..")).toString());
 	}
 	
-	private boolean playTheGame(Scanner scanner, GameState gameState) {
-		return playOneRound(scanner, gameState);
+	private void playTheGame(Scanner scanner, GameState gameState) {
+		playOneRound(scanner, gameState);
 	}
 	
 	/**
@@ -114,14 +115,13 @@ public class ColGame {
 	 * @param gameState
 	 * @return
 	 */
-	private boolean playOneRound(Scanner scanner, GameState gameState) {
-		boolean yearNotOver = true;
+	private void playOneRound(Scanner scanner, GameState gameState) {
 		LinkedList<Unit> unitList = gameState.getUnitList();
 		Unit unit;
-		//nur zum allerersten mal??
-		//Zellen ihre Units per unitList mitteilen 
 		System.out.println("Year " +gameState.getYear()+ " just started :)");
-		while (yearNotOver) {	
+		
+		boolean yearNotOver = true;
+		while (!ColGame.isGameOver() && yearNotOver) {	
 			//for each unit in unitList ask user for input action
 			try 
 			{
@@ -141,13 +141,12 @@ public class ColGame {
 				yearNotOver = false;
 				System.out.println("unitList ist abgearbeitet...");
 			}
-			
 			if (yearNotOver == false) {
 				gameState.incrementYear();
 				System.out.println("Das Jahr ist jetzt zu Ende...");
 			}
 		}
-		return yearNotOver;
+		setGameOver(yearNotOver);
 	}
 	
 	private boolean processUnit(Unit unit, Scanner scanner) {
@@ -156,9 +155,7 @@ public class ColGame {
 		//Eingabe-Aufforderung ausgeben
 		System.out.println(createAskForInputString());
 		
-		boolean tmp = true;
-		tmp = tui.processInputLine(unit, scanner.next(), gameState);
-		return tmp; 
+		return tui.processInputLine(unit, scanner.next(), gameState);
 	}
 	
 	public Tui getTui() {
@@ -167,5 +164,13 @@ public class ColGame {
 	
 	public static GameState getGameState() {
 		return gameState;
+	}
+	
+	public static boolean isGameOver() {
+		return gameOver;
+	}
+
+	public static void setGameOver(boolean gameOver) {
+		ColGame.gameOver = gameOver;
 	}
 }

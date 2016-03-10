@@ -1,5 +1,6 @@
 package de.dide.myColo.view.tui2;
 
+import de.dide.myColo.app.ColGame;
 import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.game.GameState;
 import de.dide.myColo.model.units.Unit;
@@ -17,7 +18,6 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 		this.controller = controller;
 		this.gameState = gameState;
 		gameString = GameString.getInstance();
-
 		controller.addObserver(this);
 	}
 	
@@ -62,6 +62,7 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 		switch (c) {
 			case 'q':		//quit
 				System.out.println("Quit Program (command q was given)");
+				ColGame.setGameOver(true);
 				continueGame = false;
 				//return continueGame;
 				break;

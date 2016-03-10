@@ -36,11 +36,8 @@ public class TuiCell {
 		coordX = cell.getCellIdx_X();
 		coordY = cell.getCellIdx_Y();
 		cellType = cell.getCellType();
-//		unitList = new LinkedList<Unit>();
-//		unitList.add(new Unit(0, 0, true, new Civilian(1)));
 		unitList = list;
 		paintCellViaColoredStringArray();
-
 	}
 
 	private static void initializeSizeVariables() {
@@ -59,9 +56,6 @@ public class TuiCell {
 				charsStillEmpty = 0;
 			}
 		}
-//		System.out.println("cellSize: " + cellSize);
-//		System.out.println("infoAreaSize: " + infoAreaSize);
-//		System.out.println("charsStillEmpty: " + charsStillEmpty);
 	}
 	
 	public void repaintCell() {
@@ -104,7 +98,7 @@ public class TuiCell {
 				for (int k=0; k< (BORDERSIZE); k++) {
 					fillLine.append(coloredBorderChar);
 				}
-				//rowsWithNull einfügen in cellSBArray
+				//insert rowsWithNull into cellSBArray
 				int tmpIndex = BORDERSIZE + infoSBArray.length + i;
 				cellSBArray[tmpIndex] = fillLine; 
 			}
@@ -191,12 +185,6 @@ public class TuiCell {
 	 		if (unitList.size() + manualLines >= infoSBArray.length) {
 	 			loopNr = infoSBArray.length - manualLines;
 	 		} 
-	 		
-//	 		System.out.println("unitList.size(): " + unitList.size());
-//	 		System.out.println("infoAreaSize: " + infoAreaSize);
-//	 		System.out.println("manualLines: " + manualLines);
-//	 		System.out.println("loopNr: " + loopNr);
-	 		
 	 		for (int i = 0; i < loopNr; i++) {
 	 			unitLines[i] = "unit:  " + unitList.get(i).getName();
 	 			infoSBArray[manualLines + i ] = new StringBuilder(unitLines[i]);

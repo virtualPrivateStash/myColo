@@ -42,21 +42,13 @@ public class GameString {
 		tuiCellMatrix = new TuiCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
 		for (int col = 0; col < Tui.getGameFieldSize(); col++) {
 			for (int row = 0; row < Tui.getGameFieldSize(); row++) {
-				
 				LinkedList<Unit> list = getUnitListFromCell(row, col);
 				gameCellMatrix[row][col] = new GameCell(row, col, list);
 				tuiCellMatrix[row][col] = new TuiCell(gameCellMatrix[row][col], list);
-//				if (col == 1 && row == 1) {
-//					System.out.println(gameCellMatrix[1][1].toString());
-//					gameCellMatrix[1][1].addUnit(new Unit(0, 0, true, new Civilian(1)));
 			}
 		}
-//		gameCellMatrix[1][1].addUnit(new Unit(0, 0, true, new Civilian(1)));
-		//gameCellMatrix[1][1].ge   repaintCell();
 	}
 	
-
-
 	private LinkedList<Unit> getUnitListFromCell(int row, int col) {
 		LinkedList<Unit> allCellsUnits = new LinkedList<Unit>();
 		LinkedList<Unit> oneCellsUnits = new LinkedList<Unit>();
@@ -87,11 +79,11 @@ public class GameString {
 		gameFieldSB = new StringBuilder[nrOfRows][Tui.getGameFieldSize()];
 		
 		//loop over a row of cells (if 3*3, then 3 repetitions)
-		for (int rowIngameCellMatrix=0; rowIngameCellMatrix < Tui.getGameFieldSize(); rowIngameCellMatrix++) {
+		for (int rowInGameCellMatrix=0; rowInGameCellMatrix < Tui.getGameFieldSize(); rowInGameCellMatrix++) {
 			for (int rowOfSingleCell = 0; rowOfSingleCell < TuiCell.getCellSize(); rowOfSingleCell++) {
 				for (int col=0; col < Tui.getGameFieldSize(); col++) {
-					gameFieldSB [ rowIngameCellMatrix * TuiCell.getCellSize() + rowOfSingleCell] [col]  
-						= tuiCellMatrix[rowIngameCellMatrix][col].getCellSBArray()[rowOfSingleCell];
+					gameFieldSB [ rowInGameCellMatrix * TuiCell.getCellSize() + rowOfSingleCell] [col]  
+						= tuiCellMatrix[rowInGameCellMatrix][col].getCellSBArray()[rowOfSingleCell];
 				}
 			}		
 		}
