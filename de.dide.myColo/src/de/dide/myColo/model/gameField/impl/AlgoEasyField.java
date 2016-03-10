@@ -10,7 +10,7 @@ public class AlgoEasyField implements BuildField {
 		
 		for (int i=0; i < sizeCol; i++) {
 			for (int j=0; j < sizeRow; j++) {
-				gameField[sizeCol][sizeRow] = new GameCell();
+//				gameField[sizeCol][sizeRow] = new GameCell();
 			}
 		}
 		

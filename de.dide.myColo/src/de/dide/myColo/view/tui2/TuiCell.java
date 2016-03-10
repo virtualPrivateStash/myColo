@@ -46,19 +46,14 @@ public class TuiCell {
 	private static void initializeSizeVariables() {
 		
 		if (cellSize == null || infoAreaSize == null || charsStillEmpty == null) {
-			
 			cellSize = CELLSIZE_DEFAULT;
-
 			if (cellSize < CELLSIZE_MIN || cellSize > CELLSIZE_MAX || cellSize <= 0) {
 				cellSize = CELLSIZE_MIN;
 			}
-			
 			infoAreaSize = (int) (cellSize * INFOAREASIZE_FAKTOR);
-							
 			if (infoAreaSize < INFOAREASIZE_MIN) {
 				infoAreaSize = INFOAREASIZE_MIN;
 			}
-			
 			charsStillEmpty = cellSize - 2 * BORDERSIZE - infoAreaSize;
 			if (charsStillEmpty <= 0) {
 				charsStillEmpty = 0;
@@ -83,58 +78,21 @@ public class TuiCell {
 	 */
 	private StringBuilder[] integrateInfoAreaAndBorderChars() {
 		cellSBArray = new StringBuilder[cellSize];
-		
 		String borderColor = Colors.COL_BORDER;
 		String coloredBorderChar = Colors.createColorStr(borderColor, String.valueOf(BORDERCHAR));
-		
-		
-		//fill one line with borderChars as copy-paste material
-		StringBuilder borderLine= new StringBuilder();
-		for (int i=0; i< cellSize; i++) {
-			borderLine.append(BORDERCHAR);
-		}
-		String borderLineStr = Colors.createColorStr(borderColor, borderLine.toString());
-		
-		//lines with space covered by infoArray		
-		int coveredLines = infoSBArray.length;
-		StringBuilder pre = new StringBuilder();
-		StringBuilder post = new StringBuilder();
-		
-		for (int i = 0; i < (charsStillEmpty / 2); i++) {
-			pre.append(Colors.createColorStr(cellType.getColor(), new String(String.valueOf(FILLINCHAR))));
-			post.append(Colors.createColorStr(cellType.getColor(), new String(String.valueOf(FILLINCHAR))));
-		}		
-		
-		if ( (charsStillEmpty % 2) == 1 ) {
-			post.append(FILLINCHAR);
-		}
-		
-		StringBuilder tmpSb = new StringBuilder();
-		//append chars for left and right border
-		for (int i = 0; i < BORDERSIZE; i++) {
-			tmpSb.append(BORDERCHAR);
-		}
-		String borderig = Colors.createColorStr(borderColor, tmpSb.toString());
-		
-		pre = new StringBuilder().append(borderig).append(pre);
-		post.append(borderig);
+		insertformattedInfoStrings(borderColor);
+		fillRowsThatAreStillEmpty(coloredBorderChar, borderColor);
+		return cellSBArray;
+	}
 
-		String str_pre = pre.toString();
-		String str_post = post.toString();
-		
-		for (int i=0; i<coveredLines; i++) {
-			cellSBArray[BORDERSIZE + i] = new StringBuilder(cellSize);
-			cellSBArray[BORDERSIZE + i].append(str_pre + infoSBArray[i].toString() + str_post);
-		}
-		
-		//fill empty rows after...
+	private void fillRowsThatAreStillEmpty(String coloredBorderChar, String borderColor) {
+		String borderLineStr = createBorderLineStr(borderColor);
 		int rowsWithNull = cellSize - 2*BORDERSIZE - infoSBArray.length;
 		String fillCharColor = Colors.createColorStr(cellType.getColor(), String.valueOf(BORDERCHAR));
 		
 		if (rowsWithNull > 0) {
 			for (int i=0; i < rowsWithNull; i++) {
 				StringBuilder fillLine = new StringBuilder();
-				
 				int fillWithFillChar = cellSize - 2 * BORDERSIZE;
 				
 				for (int k=0; k< (BORDERSIZE); k++) {
@@ -151,15 +109,56 @@ public class TuiCell {
 				cellSBArray[tmpIndex] = fillLine; 
 			}
 		}
-		
-		////add non-covered lines (borderCharLines)
+		addBorderCharLines(borderLineStr);
+	}
+
+	private String createBorderLineStr(String borderColor) {
+		//fill one line with borderChars as copy-paste material
+		StringBuilder borderLine= new StringBuilder();
+		for (int i=0; i< cellSize; i++) {
+			borderLine.append(BORDERCHAR);
+		}
+		String borderLineStr = Colors.createColorStr(borderColor, borderLine.toString());
+		return borderLineStr;
+	}
+
+	private void addBorderCharLines(String borderLineStr) {
+		//add non-covered lines (borderCharLines)
 		for (int i = 0; i < BORDERSIZE; i++) {
 			cellSBArray[i] = new StringBuilder(borderLineStr);
-			
-			
 			cellSBArray[cellSize -i-1] = new StringBuilder(borderLineStr);
 		}
-		return cellSBArray;
+	}
+
+	private void insertformattedInfoStrings(String borderColor){
+		//lines with space covered by infoArray	
+		int coveredLines = infoSBArray.length;
+		StringBuilder pre = new StringBuilder();
+		StringBuilder post = new StringBuilder();
+		
+		for (int i = 0; i < (charsStillEmpty / 2); i++) {
+			pre.append(Colors.createColorStr(cellType.getColor(), new String(String.valueOf(FILLINCHAR))));
+			post.append(Colors.createColorStr(cellType.getColor(), new String(String.valueOf(FILLINCHAR))));
+		}		
+		if ( (charsStillEmpty % 2) == 1 ) {
+			post.append(FILLINCHAR);
+		}
+		StringBuilder tmpSb = new StringBuilder();
+		//append chars for left and right border
+		for (int i = 0; i < BORDERSIZE; i++) {
+			tmpSb.append(BORDERCHAR);
+		}
+		String borderPart = Colors.createColorStr(borderColor, tmpSb.toString());
+		pre = new StringBuilder().append(borderPart).append(pre);
+		post.append(borderPart);
+		String str_pre = pre.toString();
+		String str_post = post.toString();
+		
+		//fill cellSBArray with "pre + infoString + post" 
+		for (int i=0; i<coveredLines; i++) {
+			cellSBArray[BORDERSIZE + i] = new StringBuilder(cellSize);
+			cellSBArray[BORDERSIZE + i].append(str_pre + infoSBArray[i].toString() + str_post);
+		}
 	}
 	
 
