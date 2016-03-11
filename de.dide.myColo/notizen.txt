@@ -2,8 +2,8 @@
 ================================
 NOTIZEN.TXT
 ================================
-====MOMENTAN================
-
+MOMENTAN:
+================================
 
 
 ================================
@@ -36,158 +36,19 @@ for year:
 		
 		aktualisierte gamecells neu zeichnen
 		
-================================
-NEUE MOVE METHODE:
-================================
-
-public void moveUnit_Left(Unit unit) {
-	moveUnit(unit, LEFT, );
-}	
-
-public void moveUnit_Up_Left(Unit unit) {
-	moveUnit(unit, LEFT, UP);
-}
-
-private void moveUnit(Unit unit, String direction1) {
-	moveUnit(unit, LEFT, false);
-}
-				
-private void moveUnit(Unit unit, String direction1, String direction2) {
-	boolean dontDecr = true;
-	boolean positionChanged = false;
-	boolean twoDirections =  false
-	boolean makeMove = false;
-	
-	//check if one or two directions were given
-	if (direction2 != null) {
-		twoDirections = true;
-	}
-	
-	if (!isMovePossible(unit, direction1) {
-		makeMove = false;
-	} 
-	else {
-		if (!twoDirections) {
-			makeMove = true;
-		} 
-		else {
-			if (isMovePossible(unit, direction2) {
-			makeMove = true;
-		}
-	}
-	
-	//do the actual moves in this if clause
-	if (makeMove) {
-
-		//STEP 1
-		moveUnitOneStep(unit, direction1);
-
-		//STEP 2 IF GIVEN
-		if (twoDirections) {
-			moveUnitOneStep(unit, direction2);
-		}
-
-		//UPDATE MODELL AND NOTIFY OBSERVERS
-		unit.decrMovesRemaining();
-		this.notifyObservers();					
-	}
-}
 		
-		
-private boolean isMovePossible(Unit unit, String direction) {
-	boolean possible = false;
-	switch (direction) {
-		case LEFT:
-			if (unit.getCoordY() > 0) {
-			possible = true; 	
-			}			
-			break;
-		case RIGHT:
-			if (unit.getCoordY() < Tui.getGameFieldSize() - 1) {
-			possible = true;
-			}			
-			break;
-		case DOWN:
-			if (unit.getCoordX() < Tui.getGameFieldSize() - 1) {
-			possible = true;
-			}			
-			break;
-		case UP:
-			if (unit.getCoordX() > 0) {
-			possible = true;
-			}			
-	}
-	return possible;
-}
-
-
-private moveUnitOneStep(Unit unit, String direct) {
-	switch (direction) {
-		case LEFT:
-			unit.setCoordY(unit.getCoordY() - 1);	
-			}			
-			break;
-		case RIGHT:
-			unit.setCoordY(unit.getCoordY() + 1);	
-			}			
-			break;
-		case DOWN:
-			unit.setCoordX(unit.getCoordX() + 1);
-			}			
-			break;
-		case UP:
-			unit.setCoordX(unit.getCoordX() - 1);
-			break;
-			}			
-	}
-}
-
 ================================
-ALTE VARIANTE:
+farben korrekt handeln in tui
 ================================
-
-	private void moveUnit_Left(Unit unit) {
-		moveUnit(unit, LEFT, false);
-	}	
-		
-	public void moveUnit_Up_Left(Unit unit) {
-		moveUnit(unit, UP, true);
-		moveUnit(unit, LEFT, true);
-		unit.decrMovesRemaining();
-	}
-
-	private boolean moveUnit(Unit unit, String direction, boolean dontDecr) {
-		boolean positionChanged = false;
-		switch (direction) {
-			case LEFT:
-				if (unit.getCoordY() > 0) {
-				unit.setCoordY(unit.getCoordY() - 1);	
-				positionChanged = true;
-				}			
-				break;
-			case RIGHT:
-				if (unit.getCoordY() < Tui.getGameFieldSize() - 1) {
-				unit.setCoordY(unit.getCoordY() + 1);	
-				positionChanged = true;
-				}			
-				break;
-			case DOWN:
-				if (unit.getCoordX() < Tui.getGameFieldSize() - 1) {
-				unit.setCoordX(unit.getCoordX() + 1);
-				positionChanged = true;
-				}			
-				break;
-			case UP:
-				if (unit.getCoordX() > 0) {
-				unit.setCoordX(unit.getCoordX() - 1);
-				positionChanged = true;
-				}			
-				break;
-		}
-		if ( dontDecr == false) {
-			unit.decrMovesRemaining();
-		}
-		this.notifyObservers();
-		return positionChanged;
-	}
 	
+problem: sind farben im infoString, so wird dieser auf falsche Länge getrimmt oä
+	
+neue Vorgehensweise für TuiCell.applyInfoAreaFormat:
+
+	wenn unicode-zeichen erkannt: (auch schon im ersten char des Strings!)
+	int uniLen = schauen wieviel buchstaben dieser verbraucht.
+	int realLen = row.length() - uniLen;
+	string-auffüllen-methode mit realLen ablaufen 
+	
+	
+			

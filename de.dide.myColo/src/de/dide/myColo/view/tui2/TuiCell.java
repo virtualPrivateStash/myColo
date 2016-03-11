@@ -28,7 +28,7 @@ public class TuiCell{
 	public static final int BORDERSIZE = 1;
 	private static final int CELLSIZE_MIN = 8;
 	private static final int CELLSIZE_MAX = 40;
-	private static final int CELLSIZE_DEFAULT = 14;	
+	private static final int CELLSIZE_DEFAULT = 30;	
 	public static final int INFOAREASIZE_MIN = 8;
 	public static final int INFOAREASIZE_MAX = 25;
 	public static final double INFOAREASIZE_FAKTOR = 0.7;
@@ -187,12 +187,19 @@ public class TuiCell{
 	 		if (unitList.size() + manualLines >= infoSBArray.length) {
 	 			loopNr = infoSBArray.length - manualLines;
 	 		} 
+	 		
 	 		for (int i = 0; i < loopNr; i++) {
-	 			unitLines[i] = "unit:  " + unitList.get(i).getName();
-	 			infoSBArray[manualLines + i ] = new StringBuilder(unitLines[i]);
+	 			Unit unit = unitList.get(i);
+ 				String unitStr = "unit: " + unit.getName();
+ 				
+ 				//IF UNIT IS ACTIVE PRINT IN COLOR COL_ACTIVE
+	 			if (unit.isActive() == true) {
+	 				unitStr = Colors.createColorStr(Colors.COL_ACTIVE, unitStr);
+	 			}
+	 			unitLines[i] = unitStr;
+	 			infoSBArray[manualLines + i] = new StringBuilder(unitLines[i]);
 	 		}
  		}
-
 		for (int i = 0; i < infoSBArray.length; i++) {
 			infoSBArray[i] = applyInfoAreaFormat(infoSBArray[i]);
 		}
@@ -201,19 +208,63 @@ public class TuiCell{
 	
 	private StringBuilder applyInfoAreaFormat(StringBuilder row) {
 
-		//wenn noch chars frei dann mit FILLINCHAR auffüllen 
+		//because substringing a string with console-color-string information might cause trouble detecting 
+		//concerning the length of the String that is actually visible in console.
+		boolean hasUnicode = false;
+		int idx_uniCode = 0;
+		for (int i = 0; i < row.length(); i++) {
+			//erstes Zeichen nicht prüfen, da COLORSTRING am Anfang ja gewollt ist
+			if (i != 0) {
+				char c = row.charAt(i);
+				if (c == '\u001B') {
+						System.out.println("char wurde erkannt");
+						idx_uniCode = i;
+						hasUnicode = true;
+						break;
+				}
+			}
+		}
+	
+		//count how many chars have to be removed from row ( from '\\' to end 'm'
+		if (hasUnicode) {
+			System.out.println();
+			boolean notAtEnd = true;
+			int lenToErase = 0;
+			while (notAtEnd) {
+				char tmp = row.charAt(idx_uniCode + lenToErase);
+				lenToErase++;
+				if (tmp == 'm') {
+					notAtEnd = false;
+				}
+			}
+			System.out.println("lenToErase: " + lenToErase);
+			
+			
+			//cut unicode-colorstring from row
+			//add string before with string after unicode-part
+			
+			String before = row.substring(1, idx_uniCode);
+			String after = row.substring(idx_uniCode, idx_uniCode + lenToErase);
+			System.out.println("before" + before);
+			System.out.println("after" + after);
+			row = new StringBuilder(before + "AA" +  after);
+		}
+		
+		//trim String if to long 
+		if ( row.length() > infoAreaSize) {
+			String s = row.substring(0,  infoAreaSize);
+			row = new StringBuilder(s);
+		}
+		
+		//if still space remaining in row fill with FILLINCHAR
 		if (row.length() < infoAreaSize) {
 			int diff = infoAreaSize - row.length();
 			for (int i=0; i<diff; i++) {
 				row.append(FILLINCHAR);
-			}	
-		//sonst String kürzen 
-		} else if ( row.length() > infoAreaSize) {
-			String s = row.substring(0,  infoAreaSize);
-			row = null;
-			row = new StringBuilder(s);			
+			}
 		}
-		row = VisualConstants.getColoredString(VisualConstants.colorName.DEFAULT, row);
+		
+		row = new StringBuilder(Colors.createColorStr(Colors.COL_GREEN, row.toString()));
 		return row;
 	}
 	

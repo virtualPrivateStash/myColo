@@ -9,6 +9,7 @@ import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.game.GameState;
 import de.dide.myColo.model.units.Unit;
 import de.dide.myColo.model.units.unitType.impl.Civilian;
+import de.dide.myColo.util.Colors;
 import de.dide.myColo.util.observer.Event;
 import de.dide.myColo.util.observer.IObserver;
 import de.dide.myColo.view.tui2.Tui;
@@ -53,8 +54,8 @@ public class ColGame{
 			}
 		}
 		//LAST LINES BEFORE GAME ENDS
-		System.out.println(GREEN + "Hier endet das Spiel.." + RESET);
-		System.out.println(VisualConstants.getColoredString(VisualConstants.colorName.ALERT, new StringBuilder("Hier endet das Spiel..")).toString());
+		System.out.println(Colors.createColorStr(Colors.COL_ALERT, "Hier endet das Spiel.."));
+		
 	}
 
 	/**
@@ -69,15 +70,17 @@ public class ColGame{
 		Unit unit;
 		controller.initializeVarsForNewYear(gameState);
 		boolean yearNotOver = true;
-		tui.printGameString();
+//		tui.printGameString();
 		
 		while (!ColGame.isGameOver() && yearNotOver) {	
 			//for each unit in unitList ask user for input action
 			try {
 				unit = unitsToProcess.pop();
+				unit.setActive(true);
 				while (unit.isToBeProcessed()) {
 					processUnit(unit, scanner);					
 				}
+				unit.setActive(false);
 			} 
 			//if UnitList is empty then end turn
 			catch (Exception e) {

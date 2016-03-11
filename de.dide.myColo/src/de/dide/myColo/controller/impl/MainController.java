@@ -84,7 +84,6 @@ public class MainController extends Observable implements Controller{
 			}
 		}
 		
-	
 		//do the actual moves in this if clause
 		if (makeMove) {
 	
@@ -262,6 +261,7 @@ public class MainController extends Observable implements Controller{
 
 	public void initializeVarsForNewYear(GameState gameState) {
 		LinkedList<Unit> unitList = gameState.getAllUnitsInGame();
+		
 		//for all Units of Game set ToBeProcessed=true
 		for (int i=0; i < gameState.getAllUnitsInGame().size(); i++) {
 			unitList.get(i).setToBeProcessed(true);
@@ -269,7 +269,6 @@ public class MainController extends Observable implements Controller{
 		
 		//GameCells aktualisieren mit unitlist usw
 		gameState.setAllUnitsInGame(unitList);
-		//notifyObservers();
 	}
 	
 	
