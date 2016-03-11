@@ -8,10 +8,12 @@ public class Unit {
 	private boolean isUnitOnField;
 	private int coordX;
 	private int coordY;
-	private int speedOfUnit;
+	private int movesPerRound;
+	private int movesRemaining;
 	private String name;
+	private boolean toBeProcessed;
 	
-	public Unit(int x, int y, Boolean visible, IUnitType unitType ) {
+	public Unit(int x, int y, Boolean visible, IUnitType unitType, int moves) {
 		coordX = x;
 		coordY = y;
 		if (visible == null) {
@@ -21,6 +23,9 @@ public class Unit {
 		}
 		this.unitType = unitType;
 		name = unitType.getName();
+		toBeProcessed = true;
+		movesRemaining = moves;
+		movesPerRound = moves; 
 	}
 	
 	public IUnitType getUnitType() {
@@ -48,10 +53,37 @@ public class Unit {
 		this.coordY = coordY;
 	}
 	public int getSpeedOfUnit() {
-		return speedOfUnit;
+		return movesPerRound;
 	}
 	public String getName() {
 		return name;
+	}
+	
+	public boolean isToBeProcessed() {
+		return toBeProcessed;
+	}
+
+	public void setToBeProcessed(boolean toBeProcessed) {
+		this.toBeProcessed = toBeProcessed;
+	}
+
+	public int getMovesPerRound() {
+		return movesPerRound;
+	}
+
+	public void setMovesPerRound(int movesPerRound) {
+		this.movesPerRound = movesPerRound;
+	}
+
+	public int getMovesRemaining() {
+		return movesRemaining;
+	}
+
+	public void decrMovesLeft() {
+		--movesRemaining ;
+		if (movesRemaining<= 0) {
+			this.setToBeProcessed(false);
+		}
 	}
 
 }

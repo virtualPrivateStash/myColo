@@ -2,6 +2,8 @@ package de.dide.myColo.view.tui2;
 
 import java.util.LinkedList;
 
+import de.dide.myColo.util.observer.Event;
+import de.dide.myColo.util.observer.IObserver;
 import de.dide.myColo.controller.Controller;
 import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.gameField.impl.GameCell;
@@ -9,7 +11,7 @@ import de.dide.myColo.model.terrain.AbstractTerrain;
 import de.dide.myColo.model.units.Unit;
 import de.dide.myColo.util.Colors;
 
-public class TuiCell {
+public class TuiCell{
 	Controller controller = new MainController();
 	private static Integer cellSize = null;
 	public static Integer infoAreaSize = null;

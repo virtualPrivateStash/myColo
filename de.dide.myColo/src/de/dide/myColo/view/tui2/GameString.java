@@ -20,7 +20,8 @@ public class GameString {
 			
 	private GameString() {
 		gameState = ColGame.getGameState();
-		buildGameString();
+		gameCellMatrix = new GameCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
+		this.makeNewTuiCellMatrix();
 	}
 	
 	public static GameString getInstance() {
@@ -30,29 +31,10 @@ public class GameString {
 		return instance;
 	}
 	
-	/**
-	 * fills cellArray with n*n new cells
-	 */
-	private void buildGameString() {
-		createAndFillGameCellMatrix();
-	}
-	
-	private void createAndFillGameCellMatrix() {
-		gameCellMatrix = new GameCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
-		tuiCellMatrix = new TuiCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
-		for (int col = 0; col < Tui.getGameFieldSize(); col++) {
-			for (int row = 0; row < Tui.getGameFieldSize(); row++) {
-				LinkedList<Unit> list = getUnitListFromCell(row, col);
-				gameCellMatrix[row][col] = new GameCell(row, col, list);
-				tuiCellMatrix[row][col] = new TuiCell(gameCellMatrix[row][col], list);
-			}
-		}
-	}
-	
 	private LinkedList<Unit> getUnitListFromCell(int row, int col) {
 		LinkedList<Unit> allCellsUnits = new LinkedList<Unit>();
 		LinkedList<Unit> oneCellsUnits = new LinkedList<Unit>();
-		allCellsUnits = gameState.getUnitList();
+		allCellsUnits = gameState.getAllUnitsInGame();
 		
 		//check unitList for units with position matching the given cell coordinates
 		for (int i=0; i < allCellsUnits.size(); i++) {
@@ -66,9 +48,21 @@ public class GameString {
 		return oneCellsUnits;
 	}
 
-	public void paint2() {
+	public void paint() {
+		makeNewTuiCellMatrix();
 		buildRowSBArrayFromGameCells();
 		printGameFieldSB();
+	}
+	
+	private void makeNewTuiCellMatrix() {
+		tuiCellMatrix = new TuiCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
+		for (int col = 0; col < Tui.getGameFieldSize(); col++) {
+			for (int row = 0; row < Tui.getGameFieldSize(); row++) {
+				LinkedList<Unit> list = getUnitListFromCell(row, col);
+				gameCellMatrix[row][col] = new GameCell(row, col, list);
+				tuiCellMatrix[row][col] = new TuiCell(gameCellMatrix[row][col], list);
+			}
+		}
 	}
 
 	/**

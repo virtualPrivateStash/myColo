@@ -28,8 +28,8 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 	  return instance;
 	}
 	
-	public void printTuiToConsole() {
-		gameString.paint2();
+	public void printGameString() {
+		gameString.paint();
 	}
 
 	/**
@@ -41,30 +41,24 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 
 	@Override
 	public void update(Event e) {
-		printTuiToConsole();
+		printGameString();
 	}
 
 	
-	public boolean processInputLine(Unit unit, String line, GameState gamestate) {
-		continueGame = true;
+	public void processInputLine(Unit unit, String line, GameState gamestate) {
 		char c = line.charAt(0);
-		continueGame = checkArgsForGameOptions(c, line);
-		if (!continueGame) {
-				return false;
-		}
-		continueGame = checkArgsForMoveCommands(unit, c, line);
-		return continueGame;
+		checkArgsForGameOptions(c, line, unit);
+		checkArgsForMoveCommands(unit, c, line);
 	}
 
 
-	private boolean checkArgsForGameOptions(char c, String line) {
+	private void checkArgsForGameOptions(char c, String line, Unit unit) {
 		boolean continueGame = true; 
 		switch (c) {
 			case 'q':		//quit
 				System.out.println("Quit Program (command q was given)");
 				ColGame.setGameOver(true);
-				continueGame = false;
-				//return continueGame;
+				unit.setToBeProcessed(false);
 				break;
 			case 'h':		//show help
 				System.out.println("Hier mal die Hilfe anzeigen...");
@@ -72,10 +66,9 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 			default:		//if none of the above cases applied 
 //				finishedAfterSwitchCase = false;
 		}
-		return continueGame;
 	}
 	
-	private boolean checkArgsForMoveCommands(Unit unit, char c, String line) {
+	private void checkArgsForMoveCommands(Unit unit, char c, String line) {
 		
 		continueGame = true; 
 		switch (c) {
@@ -110,11 +103,10 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 				
 			case 'q':		//quit
 				System.out.println("Quit Program (command q was given)");
-				continueGame = false;
+				ColGame.setGameOver(true);
 				break;				
 			default: 
 		}
-		return continueGame;
 	}
 
 }

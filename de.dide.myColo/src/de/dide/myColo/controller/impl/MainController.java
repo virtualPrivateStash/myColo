@@ -3,6 +3,7 @@ package de.dide.myColo.controller.impl;
 import java.util.LinkedList;
 
 import de.dide.myColo.controller.Controller;
+import de.dide.myColo.model.game.GameState;
 import de.dide.myColo.model.gameField.impl.GameCell;
 import de.dide.myColo.model.terrain.AbstractTerrain;
 import de.dide.myColo.model.units.Unit;
@@ -18,16 +19,21 @@ public class MainController extends Observable implements Controller{
 	}
 
 	public void moveUnit_Left(Unit unit) {
+		
 		//schreibe units coordinaten für x = x-1
-
-		// TODO Auto-generated method stub
+		if (unit.getCoordX() > 0) {
+			unit.setCoordX(unit.getCoordX() - 1);			
+		}
+		
+		 unit.decrMovesLeft();
 		
 		//notifyObservers
-//		this.notifyAll();
+		this.notifyObservers();
 	}
-//	public void moveUnit_Up(){}
-//	public void moveUnit_Right(){}
-//	public void moveUnit_Down(){}
+
+	public void moveUnit_Up(){}
+	public void moveUnit_Right(){}
+	public void moveUnit_Down(){}
 	// TODO Auto-generated method stub
 	
 	@Override
@@ -76,12 +82,21 @@ public class MainController extends Observable implements Controller{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-//	public void startGame(){} //start + neustart
-//	public void exitGame(){}
 
+	public void initializeVarsForNewYear(GameState gameState) {
+		LinkedList<Unit> unitList = gameState.getAllUnitsInGame();
+		//for all Units of Game set ToBeProcessed=true
+		for (int i=0; i < gameState.getAllUnitsInGame().size(); i++) {
+			unitList.get(i).setToBeProcessed(true);
+		}
+		
+		//GameCells aktualisieren mit unitlist usw
+		gameState.setAllUnitsInGame(unitList);
+		notifyObservers();
+	}
 	
-
+	
+	
 	
 
 }
