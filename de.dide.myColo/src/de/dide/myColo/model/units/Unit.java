@@ -79,7 +79,7 @@ public class Unit {
 		return movesRemaining;
 	}
 
-	public void decrMovesLeft() {
+	public void decrMovesRemaining() {
 		--movesRemaining ;
 		if (movesRemaining<= 0) {
 			this.setToBeProcessed(false);

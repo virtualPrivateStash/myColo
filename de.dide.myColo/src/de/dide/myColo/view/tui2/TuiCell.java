@@ -28,8 +28,8 @@ public class TuiCell{
 	public static final int BORDERSIZE = 1;
 	private static final int CELLSIZE_MIN = 8;
 	private static final int CELLSIZE_MAX = 40;
-	private static final int CELLSIZE_DEFAULT = 16;	
-	public static final int INFOAREASIZE_MIN = 10;
+	private static final int CELLSIZE_DEFAULT = 14;	
+	public static final int INFOAREASIZE_MIN = 8;
 	public static final int INFOAREASIZE_MAX = 25;
 	public static final double INFOAREASIZE_FAKTOR = 0.7;
 	
