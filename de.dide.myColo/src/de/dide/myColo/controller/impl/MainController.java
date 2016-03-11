@@ -16,17 +16,15 @@ public class MainController extends Observable implements Controller{
 	public String getNameOfTerrainType(AbstractTerrain cell) {
 		//return(cell.getNameOfTerrainType());
 		return "dummyString";
-	}
+	} 
 
 	public void moveUnit_Left(Unit unit) {
 		
 		//schreibe units coordinaten für x = x-1
-		if (unit.getCoordX() > 0) {
-			unit.setCoordX(unit.getCoordX() - 1);			
+		if (unit.getCoordY() > 0) {
+			unit.setCoordY(unit.getCoordY() - 1);			
 		}
-		
 		 unit.decrMovesLeft();
-		
 		//notifyObservers
 		this.notifyObservers();
 	}
@@ -92,7 +90,7 @@ public class MainController extends Observable implements Controller{
 		
 		//GameCells aktualisieren mit unitlist usw
 		gameState.setAllUnitsInGame(unitList);
-		notifyObservers();
+		//notifyObservers();
 	}
 	
 	

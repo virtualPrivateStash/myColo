@@ -35,36 +35,7 @@ public class ColGame{
 		gameState = createFirstGameState();
 		tui = Tui.getInstance(controller, gameState);
 		askForInputString = createAskForInputString();
-		tui.printGameString();
 //		PropertyConfigurator.configure("log4j.properties");
-	}
-
-	private String createAskForInputString() {
-		StringBuilder sb = new StringBuilder(); 
-		sb.append("Es stehen folgende Keys zur Verfügung:\n");
-		String[] commandArray = new String[20];
-		//MOVE DIRECTIONS
-		commandArray[1] = "\t--> 1 <--\tgo DOWN LEFT";
-		commandArray[2] = "\t--> 2 <--\tgo 	 DOWN";
-		commandArray[3] = "\t--> 3 <--\tgo DOWN RIGHT";
-		commandArray[4] = "\t--> 4 <--\tgo 	 LEFT";
-		commandArray[5] = "\t--> 6 <--\tgo 	 RIGHT";
-		commandArray[6] = "\t--> 7 <--\tgo  UP  LEFT";
-		commandArray[7] = "\t--> 8 <--\tgo      UP";
-		commandArray[8] = "\t--> 9 <--\tgo  UP  RIGHT";
-		commandArray[9] = "\t--> 5 <--\t NOT IMPLEMENTED YET";
-		//OTHER COMMANDS
-		String q = "\t--> q <--\t Beendet das Programm";
-		String h = "\t--> h <--\t zeigt irgendwann die Hilfe zu MyColo an";
-		commandArray[10] = q;
-		commandArray[11] = h;
-		
-		for (int i = 0; i < commandArray.length; i++) {
-			if (commandArray[i] != null) {
-				sb.append(commandArray[i] + "\n");	
-			}
-		}
-		return sb.toString();
 	}
 	
 	public void playGame() {
@@ -151,7 +122,36 @@ public class ColGame{
 	public static void setGameOver(boolean gameOver) {
 		ColGame.gameOver = gameOver;
 	}
-	
+
+
+	private String createAskForInputString() {
+		StringBuilder sb = new StringBuilder(); 
+		sb.append("Es stehen folgende Keys zur Verfügung:\n");
+		String[] commandArray = new String[20];
+		//MOVE DIRECTIONS
+		commandArray[1] = "\t--> 1 <--\tgo DOWN LEFT";
+		commandArray[2] = "\t--> 2 <--\tgo 	 DOWN";
+		commandArray[3] = "\t--> 3 <--\tgo DOWN RIGHT";
+		commandArray[4] = "\t--> 4 <--\tgo 	 LEFT";
+		commandArray[5] = "\t--> 6 <--\tgo 	 RIGHT";
+		commandArray[6] = "\t--> 7 <--\tgo  UP  LEFT";
+		commandArray[7] = "\t--> 8 <--\tgo      UP";
+		commandArray[8] = "\t--> 9 <--\tgo  UP  RIGHT";
+		commandArray[9] = "\t--> 5 <--\t NOT IMPLEMENTED YET";
+		//OTHER COMMANDS
+		String q = "\t--> q <--\t Beendet das Programm";
+		String h = "\t--> h <--\t zeigt irgendwann die Hilfe zu MyColo an";
+		commandArray[10] = q;
+		commandArray[11] = h;
+		
+		for (int i = 0; i < commandArray.length; i++) {
+			if (commandArray[i] != null) {
+				sb.append(commandArray[i] + "\n");	
+			}
+		}
+		return sb.toString();
+	}
+
 ///////////////////////////////////////////////////////////////////	
 ///////////////////////////////////////////////////////////////////
 	
