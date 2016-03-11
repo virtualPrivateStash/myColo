@@ -5,17 +5,15 @@ NOTIZEN.TXT
 ====MOMENTAN================
 
 
-unitList muss für alle existenten units sein
-unitsLeftToProcess für die zu verarbeitenden Units 
-unit braucht variable boolean isToBeProcessed
 
 ================================
 nächste Schritte:
 
-bewegen von units umsetzen
-	controller-funktionen
-	korrekten notifyAll(Event e) call absetzen
-	diesen auch korrekt für die Tui implementierern
+neue Spielfelder erzeugen
+	gameState folgendes zuweisen:
+		unitList 
+		terrainTypes (also Map generieren) 	
+
 dann mit einer GUI starten
 
 
