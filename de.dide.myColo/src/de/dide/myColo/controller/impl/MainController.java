@@ -26,48 +26,71 @@ public class MainController extends Observable implements Controller{
 	} 
 
 	public void moveUnit_Left(Unit unit) {
-		moveUnit(unit, LEFT);
+		moveUnit(unit, LEFT, false);
 	}
 
 	public void moveUnit_Right(Unit unit) {
-		moveUnit(unit, RIGHT);
+		moveUnit(unit, RIGHT, false);
 	}
 	
 	public void moveUnit_Up(Unit unit) {
-		moveUnit(unit, UP);
+		moveUnit(unit, UP, false);
 	}
 	
 	public void moveUnit_Down(Unit unit) {
-		moveUnit(unit, DOWN);
+		moveUnit(unit, DOWN, false);
+	}
+	
+	public void moveUnit_Up_Left(Unit unit) {
+		moveUnit(unit, UP, true);
+		moveUnit(unit, LEFT, true);
+		unit.decrMovesRemaining();
 	}
 
-	private void moveUnit(Unit unit, String direction) {
+	public void moveUnit_Up_Right(Unit unit) {
+		moveUnit(unit, UP, true);
+		moveUnit(unit, RIGHT, true);
+		unit.decrMovesRemaining();
+	}
+	
+	public void moveUnit_Down_Left(Unit unit) {
+		moveUnit(unit, DOWN, true);
+		moveUnit(unit, LEFT, true);
+		unit.decrMovesRemaining();
+	}
+
+	public void moveUnit_Down_Right(Unit unit) {
+		moveUnit(unit, DOWN, true);
+		moveUnit(unit, RIGHT, true);
+		unit.decrMovesRemaining();
+	}
+	
+	private void moveUnit(Unit unit, String direction, boolean dontDecr) {
 
 		switch (direction) {
 			case LEFT:
 				if (unit.getCoordY() > 0) {
 				unit.setCoordY(unit.getCoordY() - 1);	
-				unit.decrMovesRemaining();
 				}			
 				break;
 			case RIGHT:
 				if (unit.getCoordY() < Tui.getGameFieldSize() - 1) {
 				unit.setCoordY(unit.getCoordY() + 1);	
-				unit.decrMovesRemaining();
 				}			
 				break;
 			case DOWN:
 				if (unit.getCoordX() < Tui.getGameFieldSize() - 1) {
 				unit.setCoordX(unit.getCoordX() + 1);	
-				unit.decrMovesRemaining();
 				}			
 				break;
 			case UP:
 				if (unit.getCoordX() > 0) {
 				unit.setCoordX(unit.getCoordX() - 1);	
-				unit.decrMovesRemaining();
 				}			
 				break;
+		}
+		if ( dontDecr == false) {
+			unit.decrMovesRemaining();
 		}
 		this.notifyObservers();
 	}

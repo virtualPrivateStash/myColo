@@ -90,15 +90,19 @@ public class Tui implements de.dide.myColo.util.observer.IObserver{
 				break;
 			case '7':	//UP_LEFT
 				System.out.println("trying to move unit to:\t\tUP_LEFT");
+				controller.moveUnit_Up_Left(unit);
 				break;
 			case '9':	//UP_RIGHT
 				System.out.println("trying to move unit to:\t\tUP_RIGHT");
+				controller.moveUnit_Up_Right(unit);
 				break;	
 			case '1':	//DOWN_LEFT
 				System.out.println("trying to move unit to:\t\tDOWN_LEFT");
+				controller.moveUnit_Down_Left(unit);
 				break;	
 			case '3':	//DOWN_RIGHT
 				System.out.println("trying to move unit to:\t\tDOWN_RIGHT");
+				controller.moveUnit_Down_Right(unit);
 				break;	
 				
 			case 'q':		//quit
