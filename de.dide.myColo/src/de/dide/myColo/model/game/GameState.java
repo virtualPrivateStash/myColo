@@ -1,20 +1,17 @@
 package de.dide.myColo.model.game;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
+import de.dide.myColo.model.gameField.impl.GameCell;
 import de.dide.myColo.model.units.Unit;
-import de.dide.myColo.model.units.unitType.impl.Civilian;
-import de.dide.myColo.util.observer.Event;
-import de.dide.myColo.util.observer.IObserver;
+import de.dide.myColo.view.tui2.Tui;
 
 public class GameState{
 
 	private int year;
 	private boolean isOnTurn = true;
 	private LinkedList<Unit> allUnitsInGame;
+	GameCell[][] gameCellMatrix;
 
 	public GameState(LinkedList<Unit> list, int year) {
 		//UNIT LIST SETTEN
@@ -32,6 +29,8 @@ public class GameState{
 		this.year = year;
 		//SET ISUNTURN
 		isOnTurn = true;
+		
+		gameCellMatrix = new GameCell[Tui.getGameFieldSize()][Tui.getGameFieldSize()];
 	}
 	
 	public int getYear() {

@@ -9,8 +9,10 @@ import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.game.GameState;
 import de.dide.myColo.model.units.Unit;
 import de.dide.myColo.model.units.unitType.impl.Civilian;
+import de.dide.myColo.util.Colors;
 import de.dide.myColo.util.observer.Event;
 import de.dide.myColo.util.observer.IObserver;
+import de.dide.myColo.view.guiQt1.Gui_Main;
 import de.dide.myColo.view.tui2.Tui;
 import de.dide.myColo.view.tui2.VisualConstants;
 
@@ -23,17 +25,21 @@ public class ColGame{
 	public static final String RESET = "\u001B[0m";
 	private static String askForInputString;
 	private static boolean gameOver = false;
+	private static Gui_Main gui;
 
 	private static GameState gameState;
 
 	private Tui tui;
 	private static MainController controller;
 	
-	public ColGame() {
+	public ColGame(String[] args) {
 		//INITIALIZE
 		controller = new MainController();
-		gameState = createFirstGameState();
+		//gameState = createFirstGameState();
+		gameState = create_OneUserInCentre();
 		tui = Tui.getInstance(controller, gameState);
+		//gui = Gui_Main.getInstance(controller, gameState);
+//		gui = Gui_Main.getInstance(args);
 		askForInputString = createAskForInputString();
 //		PropertyConfigurator.configure("log4j.properties");
 	}
@@ -52,8 +58,8 @@ public class ColGame{
 			}
 		}
 		//LAST LINES BEFORE GAME ENDS
-		System.out.println(GREEN + "Hier endet das Spiel.." + RESET);
-		System.out.println(VisualConstants.getColoredString(VisualConstants.colorName.ALERT, new StringBuilder("Hier endet das Spiel..")).toString());
+		System.out.println(Colors.createColorStr(Colors.COL_ALERT, "Hier endet das Spiel.."));
+		
 	}
 
 	/**
@@ -64,26 +70,21 @@ public class ColGame{
 	 */
 	private void playOneRound(Scanner scanner, GameState gameState) {
 		System.out.println("Year " +gameState.getYear()+ " just started :)");
-
-//HIER KOPIEREN STATT REFERENZIEREN!!!
 		LinkedList<Unit> unitsToProcess = new LinkedList<Unit>(gameState.getAllUnitsInGame());
 		Unit unit;
 		controller.initializeVarsForNewYear(gameState);
 		boolean yearNotOver = true;
+//		tui.printGameString();
 		
 		while (!ColGame.isGameOver() && yearNotOver) {	
 			//for each unit in unitList ask user for input action
 			try {
 				unit = unitsToProcess.pop();
-				System.out.println("unitList nicht leer");
+				unit.setActive(true);
 				while (unit.isToBeProcessed()) {
 					processUnit(unit, scanner);					
 				}
-				
-//				if (!unit.isToBeProcessed()) {
-//					System.out.println("not to be processed...");
-//				}
-				
+				unit.setActive(false);
 			} 
 			//if UnitList is empty then end turn
 			catch (Exception e) {
@@ -124,7 +125,14 @@ public class ColGame{
 	}
 
 
+	
+	
 	private String createAskForInputString() {
+//		return createHelpString1();
+		return createStr_shortVersion();
+	}
+
+	private String createHelpString1() {
 		StringBuilder sb = new StringBuilder(); 
 		sb.append("Es stehen folgende Keys zur Verfügung:\n");
 		String[] commandArray = new String[20];
@@ -152,8 +160,41 @@ public class ColGame{
 		return sb.toString();
 	}
 
+	private String createStr_shortVersion() {
+		StringBuilder sb = new StringBuilder(); 
+		sb.append("Es stehen folgende Keys zur Verfügung:\n");
+		String[] commandArray = new String[4];
+		//MOVE DIRECTIONS
+		commandArray[1] = "\t--> 1 - 9 <--\tmove Unit in direction nr";
+
+		//OTHER COMMANDS
+		String q = "\t--> q <--\t Beendet das Programm";
+		String h = "\t--> h <--\t zeigt irgendwann die Hilfe zu MyColo an";
+		commandArray[2] = q;
+		commandArray[3] = h;
+		
+		for (int i = 0; i < commandArray.length; i++) {
+			if (commandArray[i] != null) {
+				sb.append(commandArray[i] + "\n");	
+			}
+		}
+		return sb.toString();
+	}
 ///////////////////////////////////////////////////////////////////	
 ///////////////////////////////////////////////////////////////////
+	
+	private GameState create_OneUserInCentre() {
+		GameState newState = new GameState(null, 1000);
+		int x = Tui.getGameFieldSize() /2;
+		int y = Tui.getGameFieldSize() /2;
+		Unit unit1 = new Unit(x, y, true, new Civilian(1), 1);
+		LinkedList<Unit> newUnitList = new LinkedList<Unit>();
+		newUnitList.add(unit1);
+		newState.setAllUnitsInGame(newUnitList);
+		return newState;
+	}
+
+	
 	
 	private GameState createFirstGameState() {
 		GameState newState = new GameState(null, 1000);

@@ -1,10 +1,9 @@
 package de.dide.myColo.model.gameField.impl;
 
-public class AlgoEasyField implements BuildField {
+public class AlgoEasyField { //implements BuildField
 
 	GameCell[][] gameField;
 	
-	@Override
 	public GameCell[][] buildGameField(int sizeCol, int sizeRow) {
 		gameField = new GameCell[sizeCol][sizeRow];
 		

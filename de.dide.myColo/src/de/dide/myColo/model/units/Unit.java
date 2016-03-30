@@ -12,6 +12,7 @@ public class Unit {
 	private int movesRemaining;
 	private String name;
 	private boolean toBeProcessed;
+	private boolean active;
 	
 	public Unit(int x, int y, Boolean visible, IUnitType unitType, int moves) {
 		coordX = x;
@@ -79,11 +80,19 @@ public class Unit {
 		return movesRemaining;
 	}
 
-	public void decrMovesLeft() {
+	public void decrMovesRemaining() {
 		--movesRemaining ;
 		if (movesRemaining<= 0) {
 			this.setToBeProcessed(false);
 		}
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean given) {
+		active = given;
+	}
+	
 }
