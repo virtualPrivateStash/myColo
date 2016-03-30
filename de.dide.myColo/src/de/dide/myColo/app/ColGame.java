@@ -12,6 +12,7 @@ import de.dide.myColo.model.units.unitType.impl.Civilian;
 import de.dide.myColo.util.Colors;
 import de.dide.myColo.util.observer.Event;
 import de.dide.myColo.util.observer.IObserver;
+import de.dide.myColo.view.guiQt1.Gui_Main;
 import de.dide.myColo.view.tui2.Tui;
 import de.dide.myColo.view.tui2.VisualConstants;
 
@@ -24,18 +25,21 @@ public class ColGame{
 	public static final String RESET = "\u001B[0m";
 	private static String askForInputString;
 	private static boolean gameOver = false;
+	private static Gui_Main gui;
 
 	private static GameState gameState;
 
 	private Tui tui;
 	private static MainController controller;
 	
-	public ColGame() {
+	public ColGame(String[] args) {
 		//INITIALIZE
 		controller = new MainController();
 		//gameState = createFirstGameState();
 		gameState = create_OneUserInCentre();
 		tui = Tui.getInstance(controller, gameState);
+		//gui = Gui_Main.getInstance(controller, gameState);
+//		gui = Gui_Main.getInstance(args);
 		askForInputString = createAskForInputString();
 //		PropertyConfigurator.configure("log4j.properties");
 	}
