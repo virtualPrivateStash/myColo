@@ -38,7 +38,7 @@ public class TuiCell{
 		coordX = cell.getCellIdx_X();
 		coordY = cell.getCellIdx_Y();
 		cellType = cell.getCellType();
-		unitList = list;
+		unitList = list; 
 		paintCellViaColoredStringArray();
 	}
 

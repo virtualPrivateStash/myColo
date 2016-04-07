@@ -11,20 +11,22 @@ public class Gui_Main {
 	private static Gui_Main instance;
 	
 	private Gui_Main(String[] args) {
-        //QApplication.initialize(args);
 		QApplication.initialize(args);
-        QPushButton colo = new QPushButton("MyColo");
-        QPushButton quit = new QPushButton("Quit");
- 
-        quit.resize(80, 40);
-        quit.setFont(new QFont("Times", 18, QFont.Weight.Bold.value()));
-        quit.clicked.connect(QApplication.instance(), "quit()");
-
-        quit.setWindowTitle("Calling It Quits");
-        quit.show();
-        colo.show();
-        QApplication.exec();
-
+		QPushButton button1 = new QPushButton("One");
+	    QPushButton button2 = new QPushButton("Two");
+	    QPushButton buttonQuit = new QPushButton("QUIT");
+	    QVBoxLayout layout = new QVBoxLayout();
+	    
+	    buttonQuit.clicked.connect(QApplication.instance(), "quit()");
+	    
+	    layout.addWidget(button1);
+	    layout.addWidget(button2);
+	    layout.addWidget(buttonQuit);
+	    QWidget window = new QWidget();
+	    window.setLayout(layout);
+	    window.setMinimumSize(400,400);
+	    window.show();
+	    QApplication.exec();
 	}
 
 	public static Gui_Main getInstance(String[] args) {

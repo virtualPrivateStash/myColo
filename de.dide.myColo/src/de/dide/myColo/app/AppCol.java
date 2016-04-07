@@ -9,6 +9,8 @@ public class AppCol {
 	private static void firstGameSetUp(String[] args) {
 		System.out.println("WELCOME TO THE FIRST STEPS OF MYCOLO");
 		ColGame erstesSpiel = new ColGame(args);
+		
+		//blockierendes Warten?? 
 		erstesSpiel.playGame();
 		//hier können logger usw. eingefügt werden 
 	}

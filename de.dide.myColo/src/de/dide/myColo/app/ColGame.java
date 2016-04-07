@@ -1,8 +1,6 @@
 package de.dide.myColo.app;
 
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 import de.dide.myColo.controller.impl.MainController;
@@ -10,11 +8,8 @@ import de.dide.myColo.model.game.GameState;
 import de.dide.myColo.model.units.Unit;
 import de.dide.myColo.model.units.unitType.impl.Civilian;
 import de.dide.myColo.util.Colors;
-import de.dide.myColo.util.observer.Event;
-import de.dide.myColo.util.observer.IObserver;
 import de.dide.myColo.view.guiQt1.Gui_Main;
 import de.dide.myColo.view.tui2.Tui;
-import de.dide.myColo.view.tui2.VisualConstants;
 
 public class ColGame{
 
@@ -25,10 +20,9 @@ public class ColGame{
 	public static final String RESET = "\u001B[0m";
 	private static String askForInputString;
 	private static boolean gameOver = false;
-	private static Gui_Main gui;
 
 	private static GameState gameState;
-
+	private Gui_Main gui; 
 	private Tui tui;
 	private static MainController controller;
 	
@@ -37,16 +31,14 @@ public class ColGame{
 		controller = new MainController();
 		//gameState = createFirstGameState();
 		gameState = create_OneUserInCentre();
-		tui = Tui.getInstance(controller, gameState);
-		//gui = Gui_Main.getInstance(controller, gameState);
-//		gui = Gui_Main.getInstance(args);
+		//tui = Tui.getInstance(controller, gameState);
+		this.gui = Gui_Main.getInstance(args);
 		askForInputString = createAskForInputString();
 //		PropertyConfigurator.configure("log4j.properties");
 	}
 	
 	public void playGame() {
 		//READ USER INPUT FROM TUI UNTIL GAME ENDS
-		boolean continueGame = true;
 		Scanner scanner = new Scanner(System.in);
 		while (!ColGame.isGameOver()) {
 			controller.initializeVarsForNewYear(gameState);
