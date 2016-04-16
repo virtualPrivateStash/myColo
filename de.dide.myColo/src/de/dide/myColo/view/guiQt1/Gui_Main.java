@@ -26,7 +26,7 @@ public class Gui_Main {
 	    window.setLayout(layout);
 	    window.setMinimumSize(400,400);
 	    window.show();
-	    QApplication.exec();
+	    QApplication.execStatic();
 	}
 
 	public static Gui_Main getInstance(String[] args) {
