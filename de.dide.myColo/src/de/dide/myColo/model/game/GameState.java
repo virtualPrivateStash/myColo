@@ -11,7 +11,8 @@ public class GameState{
 	private int year;
 	private boolean isOnTurn = true;
 	private LinkedList<Unit> allUnitsInGame;
-	GameCell[][] gameCellMatrix;
+	private GameCell[][] gameCellMatrix;
+
 
 	public GameState(LinkedList<Unit> list, int year) {
 		//UNIT LIST SETTEN
@@ -70,6 +71,14 @@ public class GameState{
 
 	public void setIsOnTurn(boolean onTurn) {
 		this.isOnTurn = onTurn;
+	}
+
+	public GameCell[][] getGameCellMatrix() {
+		return gameCellMatrix;
+	}
+
+	public void setGameCellMatrix(GameCell[][] gameCellMatrix) {
+		this.gameCellMatrix = gameCellMatrix;
 	}
 
 }

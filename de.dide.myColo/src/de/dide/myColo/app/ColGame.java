@@ -23,7 +23,7 @@ public class ColGame{
 	private static String askForInputString;
 	private static boolean gameOver = false;
 
-	private static GameState gameState;
+	private GameState gameState;
 	private Gui_Main gui; 
 	private Tui tui;
 	private static MainController controller;
@@ -35,8 +35,8 @@ public class ColGame{
 		gameState = create_OneUserInCentre();
 		//tui = Tui.getInstance(controller, gameState);
 		QApplication.initialize(args);
-		this.gui = Gui_Main.getInstance(args);
-		askForInputString = createAskForInputString();
+		this.gui = Gui_Main.getInstance(args, gameState);
+//		askForInputString = createAskForInputString();
 //		PropertyConfigurator.configure("log4j.properties");
 	}
 	
@@ -53,7 +53,8 @@ public class ColGame{
 			}
 		}
 		//LAST LINES BEFORE GAME ENDS
-		System.out.println(Colors.createColorStr(Colors.COL_ALERT, "Hier endet das Spiel.."));
+		System.out.println(Colors.createColorStr(
+				Colors.COL_ALERT, "Hier endet das Spiel.."));
 		
 	}
 
@@ -65,7 +66,8 @@ public class ColGame{
 	 */
 	private void playOneRound(Scanner scanner, GameState gameState) {
 		System.out.println("Year " +gameState.getYear()+ " just started :)");
-		LinkedList<Unit> unitsToProcess = new LinkedList<Unit>(gameState.getAllUnitsInGame());
+		LinkedList<Unit> unitsToProcess = new LinkedList<Unit>(
+				gameState.getAllUnitsInGame());
 		Unit unit;
 		controller.initializeVarsForNewYear(gameState);
 		boolean yearNotOver = true;
@@ -97,7 +99,8 @@ public class ColGame{
 	}
 	
 	private void processUnit(Unit unit, Scanner scanner) {
-		System.out.println("Unit " + unit.getCoordX() +","+ unit.getCoordY() +" ist am Zug.");
+		System.out.println("Unit " + unit.getCoordX() + ","
+				+ unit.getCoordY() +" ist am Zug.");
 		//Eingabe-Aufforderung ausgeben
 		System.out.println(createAskForInputString());
 		tui.processInputLine(unit, scanner.next(), gameState);
@@ -107,7 +110,7 @@ public class ColGame{
 		return tui;
 	}
 	
-	public static GameState getGameState() {
+	public GameState getGameState() {
 		return gameState;
 	}
 	

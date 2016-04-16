@@ -11,7 +11,9 @@ public class AppCol {
 		ColGame erstesSpiel = new ColGame(args);
 		
 		//blockierendes Warten?? 
-		erstesSpiel.playGame();
+		
+		//erstesSpiel.playGame();
+		
 		//hier können logger usw. eingefügt werden 
 	}
 }	
