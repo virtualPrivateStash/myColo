@@ -3,6 +3,8 @@ package de.dide.myColo.app;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import com.trolltech.qt.gui.QApplication;
+
 import de.dide.myColo.controller.impl.MainController;
 import de.dide.myColo.model.game.GameState;
 import de.dide.myColo.model.units.Unit;
@@ -32,6 +34,7 @@ public class ColGame{
 		//gameState = createFirstGameState();
 		gameState = create_OneUserInCentre();
 		//tui = Tui.getInstance(controller, gameState);
+		QApplication.initialize(args);
 		this.gui = Gui_Main.getInstance(args);
 		askForInputString = createAskForInputString();
 //		PropertyConfigurator.configure("log4j.properties");
