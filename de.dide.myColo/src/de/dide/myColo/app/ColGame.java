@@ -23,7 +23,7 @@ public class ColGame{
 	private static String askForInputString;
 	private static boolean gameOver = false;
 
-	private GameState gameState;
+	private static GameState gameState;
 	private Gui_Main gui; 
 	private Tui tui;
 	private static MainController controller;
@@ -33,10 +33,10 @@ public class ColGame{
 		controller = new MainController();
 		//gameState = createFirstGameState();
 		gameState = create_OneUserInCentre();
-		//tui = Tui.getInstance(controller, gameState);
+		tui = Tui.getInstance(controller, gameState);
 		QApplication.initialize(args);
 		this.gui = Gui_Main.getInstance(args, gameState);
-//		askForInputString = createAskForInputString();
+		askForInputString = createAskForInputString();
 //		PropertyConfigurator.configure("log4j.properties");
 	}
 	
@@ -110,7 +110,7 @@ public class ColGame{
 		return tui;
 	}
 	
-	public GameState getGameState() {
+	public static GameState getGameState() {
 		return gameState;
 	}
 	
@@ -175,6 +175,7 @@ public class ColGame{
 			if (commandArray[i] != null) {
 				sb.append(commandArray[i] + "\n");	
 			}
+			
 		}
 		return sb.toString();
 	}

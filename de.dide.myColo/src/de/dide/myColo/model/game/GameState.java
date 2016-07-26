@@ -9,6 +9,7 @@ import de.dide.myColo.view.tui2.Tui;
 public class GameState{
 
 	private int year;
+	private int STARTYEAR_DEFAULT = 1492;
 	private boolean isOnTurn = true;
 	private LinkedList<Unit> allUnitsInGame;
 	private GameCell[][] gameCellMatrix;
@@ -25,7 +26,7 @@ public class GameState{
 		}
 		//SET YEAR
 		if (year < 1 ) {
-			year = 1492;
+			year = STARTYEAR_DEFAULT;
 		}
 		this.year = year;
 		//SET ISUNTURN

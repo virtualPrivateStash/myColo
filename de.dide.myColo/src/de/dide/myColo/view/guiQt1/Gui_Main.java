@@ -23,7 +23,7 @@ public class Gui_Main extends QWidget implements IObserver{
 	private static Gui_Main instance;
 	protected QGridLayout layout;
 	private static String styleSheet;
-	private final int GAMEFIELDSIZE = 10;
+	private final static int GAMEFIELDSIZE = 10;
 	private QPushButton[][] buttonArray;
 	private MainController controller;
 	
@@ -81,6 +81,7 @@ public class Gui_Main extends QWidget implements IObserver{
 		        button.setSizePolicy(QSizePolicy.Policy.Expanding,
 		        		QSizePolicy.Policy.Expanding);
 		        
+		        
 		        String color_backGround = null; 
 //		        button.setStyleSheet("background-color: white");
 		        buttonArray[i][j] = button;		        
@@ -88,6 +89,10 @@ public class Gui_Main extends QWidget implements IObserver{
 		        layout.addWidget(button, i, j);
 			}
 		}
+	}
+	
+	public static int getGameFieldSize() {
+		return GAMEFIELDSIZE;
 	}
 
 	@Override

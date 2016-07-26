@@ -1,24 +1,28 @@
 package de.dide.myColo.model.terrain;
 
-public abstract class AbstractTerrain {
+import javax.swing.ImageIcon;
 
-	private String nameOfTerrainType;
-	private final int MOVECOST_STD = 1;
-	private int movecost = MOVECOST_STD;
-	private boolean isFree = true;
-	private boolean isLand = true;
-	private final String terrainColor;
+public abstract class AbstractTerrain implements ITerrain{
+
+	protected String nameOfTerrainType;
+	protected final double MOVECOST_STD = 1;
+	protected double movecost;
+	protected boolean isFree = true;
+	protected boolean isLand;
+	protected final String terrainColor = null;
+	protected ImageIcon backgroundImage;
 	
-	public AbstractTerrain(String color) {
-		nameOfTerrainType = "abstractTerrain";
-		terrainColor = color;
-	}  
-	
-	public String getColor() {
-		return terrainColor;
+	public ImageIcon getBackgroundImage() {
+		return backgroundImage;
 	}
 
-	public int getMoveCost() {
+	public AbstractTerrain() {
+		movecost = MOVECOST_STD;
+		isFree = true;
+		
+	}  
+
+	public double getMoveCost() {
 		return getMovecost();
 	}
 
@@ -26,15 +30,12 @@ public abstract class AbstractTerrain {
 		return isLand;
 	}
 	
-	public void setIsLand(boolean isLand) {
-		this.isLand = isLand;
-	}
-
 	public boolean isFree() {
 		return true;
 	}
 
-	public int getMovecost() {
+	@Override
+	public double getMovecost() {
 		return movecost;
 	}
 

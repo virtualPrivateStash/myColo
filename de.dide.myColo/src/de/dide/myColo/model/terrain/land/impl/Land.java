@@ -1,4 +1,4 @@
-package de.dide.myColo.model.terrain.impl;
+package de.dide.myColo.model.terrain.land.impl;
 
 import de.dide.myColo.model.terrain.AbstractTerrain;
 import de.dide.myColo.util.Colors;

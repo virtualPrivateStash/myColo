@@ -61,6 +61,155 @@ landkarte zeichnen
 ================================			
 			
 bisher ist jede Zelle als Wasser initialisiert			
-			
+	
+================================
+Terrain-Types zeichnen
+================================				
+water
+highSea		(hier kann nach Europa oä gereist werden)
+Lake (?)
+
+
+GrassLand
+Desert 
+
+
+
+Rock
+RockWithSilver
+
+
+
+Land
+
+
+Water
+	Coast
+	normalSea
+	HighSea
+	
+Land
+	
+	Rocky
 					
+
+
+================================
+Abstraktionslevel:
+================================	
+AbstractTerrain
+	movecost
+	Color
+	Terraintype
+	
+	
+	
+TerrainType
+
+
+
+================================
+================================
+was ist die Überlegung zur Umsetzung:
+================================
+================================
+worum gehts:
+
+- Landkarte zeichnen
+
+- GameCell soll Infos über den jeweiligen AreaType enthalten (bzw. ein solches Objekt haben)
+
+Möglichkeiten hierfür:
+
+Klasse GameCell hat eine Instanzvariable vom Typ AbstractArea
+
+
+	
+AbstractGameCell
+	
+IAreaType:
+	boolean isLand();
+	boolean roadOverTerrain();
+	boolean landIsConvertable();	//AreaType kann durch Pioniere noch verändert werden
+	doube getMoveCost();
+	void setHasRoad();
+	booleand isBuildingColonyPossible();
+		
+	
+	
+AbstractArea:
+	double moveCost (1/3 - 4) (oder 1-12)
+	Image imageOfAreaType
+	List<goods> producableGoods
+	boolean isWater						
+	
+	
+	
+	
+		
+	
+Wasser:	
+	OCEAN	 
+	SEA LANE
+
+Berge:
+	HILLS
+	MOUNTAINS
+
+Land:	 
+	ARCTIC
+	BORREAL FOREST
+	BROADLEAF FOREST
+	CONIFER FOREST
+	DESERT
+	GRASSLAND
+	MARSH
+	MIXED FOREST
+	PLAINS
+	PRAIRIE
+	RAIN FOREST
+	SAVANNAH
+	SCRUB FOREST
+	SWAMP
+	TROPICAL FOREST
+	TUNDRA
+	WETLAND FOREST
+
+================================
+erste zu implementierende Abstract-Area-Subtypen
+
+OCEAN	 
+SEA LANE
+ Lake
+
+HILLS
+
+DESERT
+GRASSLAND
+MIXED FOREST
+SAVANNAH
+================================
+Terrain-Angelegenheit:
+
+Abstrakte Klassen und Interfaces angelegt, Klasse GrassLand implementiert diese.
+
+Status Quo: 
+- Tui ist auskommentiert
+- Gui zeichnet einfach nur Buttons mit row, col
+- sehr verwirrend: es gibt eine GameCellMatrix in GameState und eine in GameString.
+	Irgendwie besser logisch aufgliedern. (z.b. eine Klasse GameField oder MapOfGame oder sowas)
+
+Auch Rundenmechanismus muss von Tui und Gui abstrahiert werden und diese einfach auch per Listener oä eingebunden werden
+
+Jetzt entsprechende gameCellMatrix (class GameState) anlegen, die erstmal ein Spielfeld nur mit GrassLand Zellen erzeugt.
+
+
+
+
+
+Landkarten erzeugen:
+in Klasse GameState
+2-3 von Hand anlegen, später mal Zufallsalgorithmus
+
+
 			

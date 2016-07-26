@@ -3,7 +3,7 @@ package de.dide.myColo.model.gameField.impl;
 import java.util.LinkedList;
 
 import de.dide.myColo.model.terrain.AbstractTerrain;
-import de.dide.myColo.model.terrain.impl.Water;
+import de.dide.myColo.model.terrain.land.impl.Water;
 import de.dide.myColo.model.units.Unit;
 
 public class GameCell {
@@ -13,13 +13,14 @@ public class GameCell {
 	private final int coordY;
 	private LinkedList<Unit> unitList;
 	
-	public GameCell(int idx_row, int idx_col, LinkedList<Unit> list) {
+	public GameCell(int idx_row, int idx_col, LinkedList<Unit> list, AbstractTerrain type) {
 		cellType = new Water();
 		//type bebauung = road, colony, fort, ...
 		//List<TransportUnit> trnspList
 		//List<Military> befestigung
 		//boolean canBeTravelled
 				
+		cellType = type;
 		coordX = idx_row;
 		coordY = idx_col;
 		LinkedList<Unit> unitList = list;
